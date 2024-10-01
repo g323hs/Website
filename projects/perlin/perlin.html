@@ -1,0 +1,142 @@
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html lang="en">
+	<head>
+		<title>Perlin Noise</title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href="../../assets/css/main.css" />
+	</head>
+	<body class="is-preload">
+
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+						<div class="inner">
+
+							<!-- Header -->
+								<header id="header">
+								<a href="../../index.html" class="logo">Back to <strong>Homepage</strong></a>
+								<ul class="icons">
+									<li><a href="https://www.instagram.com/_george_h_s_" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
+									<li><a href="https://github.com/g323hs" class="icon brands fa-github"><span class="label">Github</span></a></li>
+									<li><a href="https://linkedin.com/in/george-hildick-smith/" class="icon brands fa-linkedin-in"><span class="label">Linked-In</span></a></li>
+									<li><a href="mailto:3ghildicksmith3@gmail.com" class="icon regular fa-envelope"><span class="label">Email</span></a></li>
+								</ul>
+							</header>
+
+							<!-- Content -->
+							<section>
+								<header class="main">
+									<h1>Perlin Noise</h1>
+								</header>
+
+								<!-- Content -->
+									<h2 id="content">What is Perlin noise?</h2>
+									<p>Perlin Noise is a gradient (smooth) noise function developed by Ken Perlin, commonly used in computer graphics to generate natural-looking textures and effects. It produces smoothly interpolated random values, making it ideal for simulating organic forms such as clouds, terrain, and waves. Unlike simple random noise, Perlin Noise offers coherent, continuous patterns that avoid harsh transitions. To learn more, visit the <a href="https://en.wikipedia.org/wiki/Perlin_noise">Perlin Noise Wikipedia page</a>.</p>
+									<hr>
+									<div class="row">
+										<div class="col-8 col-12-small">
+											<h3>Perlin noise in 1 dimension</h3>
+											<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat commodo eu sed ante lacinia. Sapien a lorem in integer ornare praesent commodo adipiscing arcu in massa commodo lorem accumsan at odio massa ac ac. Semper adipiscing varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
+										</div>
+										<div class="col-4 col-12-small">
+											<div id="perlin1d"></div>
+										</div>
+										<!-- Break -->
+										<div class="col-4 col-12-small">
+											<div id="perlin2d"></div>
+										</div>
+										<div class="col-8 col-12-small">
+											<h3>Perlin noise in 2 dimensions</h3>
+											<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat commodo eu sed ante lacinia. Sapien a lorem in integer ornare praesent commodo adipiscing arcu in massa commodo lorem accumsan at odio massa ac ac. Semper adipiscing varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
+										</div>
+										<!-- Break -->
+										<div class="col-12 col-12-small">
+											<h3 style="text-align: center;">Perlin World</h3>
+											<h4>In this sketch I have used Perlin noise for almost every aspect! I shall expalin each of these below.</h4>
+											<ul class="alt">
+												<li>The mountains and dry sand are stationary in the animation but hopefully you can see, they resemble the initial line drawn in <a href="#perlin1d">Perlin noise in 1 dimension</a> just with some tweaking. Then it is almost identical with the wet sand and ocean layers where we have some offset value which increases over time meaning the noise space sampled is shifted slightly values giving the ocean effect.</li>
+												<li>The clouds are genereated and move by, you guessed it, Perlin noise. To get the bubbly effect of the clouds I  overlapped circles of variying radii. I determined the centres' of the circles by creating an oval shape using <code>sin</code> and <code>cos</code> then putting a circle at random points around the centre of the cloud. </li>
+												<li>The trees position and "wind" are also determined by... Perlin noise. I use it to them neatly on the dry sand and having every branch of a particular tree bend in an organic manner to give a wind effect. The height and branch depth of the trees are random. <a href="#recursiveTree">Here</a> I explain how the tree drawing works.</li>
+												<li>The sun has a breathing motion to it where it's radius is determined (for the last time) by Perlin Noise.</li>
+											</ul>
+										</div>
+										<div class="col-12 col-12-small">
+											<div id="perlinWorld"></div>
+										</div>
+										
+									</div>
+								<hr class="major" />
+							</section>
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+										<li><a href="../../index.html">Homepage</a></li>
+										<li><a href="../../elements.html">Elements</a></li>
+										<li>
+											<span class="opener">Projects</span>
+											<ul>
+												<li><a href="#">Perlin Noise</a></li>
+												<li><a href="#">Path Finding</a></li>
+												<li><a href="#">A-Level Project</a></li>
+											</ul>
+										</li>
+										<li><a href="#">Curriculum vitae</a></li>
+									</ul>
+								</nav>
+
+							<!-- Section -->
+								<section>
+									<header class="major">
+										<h2>Get in touch</h2>
+									</header>
+									<p>If you have any questions or feedback about any of my projects or would like to get in touch, please don't hesitate to email me or send me a message. Thanks!</p>
+									<ul class="contact">
+										<li class="icon solid fa-phone">(+44) 7507066055</li>
+										<li class="icon solid fa-envelope"><a href="mailto:3ghildicksmith3@gmail.com">3ghildicksmith3@gmail.com</a></li>
+									</ul>
+								</section>
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy; 2024 George Hildick-Smith. All rights reserved.</p>
+								</footer>
+						</div>
+					</div>
+			</div>
+
+		<!-- Scripts -->
+			<!-- Default -->
+			<script src="../../assets/js/jquery.min.js"></script>
+			<script src="../../assets/js/browser.min.js"></script>
+			<script src="../../assets/js/breakpoints.min.js"></script>
+			<script src="../../assets/js/util.js"></script>
+			<script src="../../assets/js/main.js"></script>
+			<!-- New -->
+
+			<!-- Sketches -->
+			<script src="../../assets/js/p5.js"></script>
+			<script src="perlin1d.js"></script>
+			<script src="perlin2d.js"></script>
+			<script src="perlinWorld.js"></script>
+			<!-- Sketch managing files -->
+			<script src="Managers/sketchManager.js"></script>
+			<script src="Managers/loadManager.js"></script>
+	</body>
+</html>
