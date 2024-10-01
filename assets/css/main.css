@@ -1,10 +1,6 @@
 @import url(fontawesome-all.min.css);
 @import url("https://fonts.googleapis.com/css?family=Open+Sans:400,600,400italic,600italic|Roboto+Slab:400,700");
-/*
-	Editorial by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
-*/
+
 html, body, div, span, applet, object,
 iframe, h1, h2, h3, h4, h5, h6, p, blockquote,
 pre, a, abbr, acronym, address, big, cite,
@@ -252,6 +248,8 @@ hr {
     align-items: flex-end; }
   .row > .imp {
     order: -1; }
+  .row > .col-0 {
+    display: none; }
   .row > .col-1 {
     width: 8.33333%; }
   .row > .off-1 {
@@ -378,6 +376,8 @@ hr {
         align-items: flex-end; }
       .row > .imp-xlarge {
         order: -1; }
+      .row > .col-0-xlarge {
+        width: 0%; }
       .row > .col-1-xlarge {
         width: 8.33333%; }
       .row > .off-1-xlarge {
@@ -504,8 +504,10 @@ hr {
         align-items: flex-end; }
       .row > .imp-large {
         order: -1; }
+      .row > .col-0-large {
+        width: 0%; }
       .row > .col-1-large {
-        width: 8.33333%; }
+      width: 8.33333%; }
       .row > .off-1-large {
         margin-left: 8.33333%; }
       .row > .col-2-large {
@@ -630,8 +632,10 @@ hr {
         align-items: flex-end; }
       .row > .imp-medium {
         order: -1; }
+      .row > .col-0-medium {
+        width: 0%; }
       .row > .col-1-medium {
-        width: 8.33333%; }
+      width: 8.33333%; }
       .row > .off-1-medium {
         margin-left: 8.33333%; }
       .row > .col-2-medium {
@@ -756,6 +760,8 @@ hr {
         align-items: flex-end; }
       .row > .imp-small {
         order: -1; }
+      .row > .col-0-small {
+        display: none; }
       .row > .col-1-small {
         width: 8.33333%; }
       .row > .off-1-small {
@@ -801,6 +807,7 @@ hr {
       .row > .off-11-small {
         margin-left: 91.66667%; }
       .row > .col-12-small {
+        display: initial;
         width: 100%; }
       .row > .off-12-small {
         margin-left: 100%; }

@@ -24,7 +24,6 @@
 								<header id="header">
 								<a href="../../index.html" class="logo">Back to <strong>Homepage</strong></a>
 								<ul class="icons">
-									<li><a href="https://www.instagram.com/_george_h_s_" class="icon brands fa-instagram"><span class="label">Instagram</span></a></li>
 									<li><a href="https://github.com/g323hs" class="icon brands fa-github"><span class="label">Github</span></a></li>
 									<li><a href="https://linkedin.com/in/george-hildick-smith/" class="icon brands fa-linkedin-in"><span class="label">Linked-In</span></a></li>
 									<li><a href="mailto:3ghildicksmith3@gmail.com" class="icon regular fa-envelope"><span class="label">Email</span></a></li>
@@ -50,10 +49,14 @@
 											<div id="perlin1d"></div>
 										</div>
 										<!-- Break -->
+										<div class="col-0 col-12-small">
+											<h3>Perlin noise in 2 dimensions</h3>
+											<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat commodo eu sed ante lacinia. Sapien a lorem in integer ornare praesent commodo adipiscing arcu in massa commodo lorem accumsan at odio massa ac ac. Semper adipiscing varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
+										</div>
 										<div class="col-4 col-12-small">
 											<div id="perlin2d"></div>
 										</div>
-										<div class="col-8 col-12-small">
+										<div class="col-8 col-0-small">
 											<h3>Perlin noise in 2 dimensions</h3>
 											<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat commodo eu sed ante lacinia. Sapien a lorem in integer ornare praesent commodo adipiscing arcu in massa commodo lorem accumsan at odio massa ac ac. Semper adipiscing varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
 										</div>
@@ -68,11 +71,30 @@
 												<li>The sun has a breathing motion to it where it's radius is determined (for the last time) by Perlin Noise.</li>
 											</ul>
 										</div>
-										<div class="col-12 col-12-small">
+										<!-- Break -->
+										<div class="col-2 col-0-small"></div>
+										<div class="col-8 col-12-small">
 											<div id="perlinWorld"></div>
 										</div>
-										
+										<div class="col-2 col-0-small"></div>
+										<!-- Break -->
+										<div class="col-12 col-12-small">
+											<hr>
+										</div>
+										<!-- Break -->
+										<div class="col-4 col-12-small">
+											<h3>Recursive Tree</h3>
+											<p>As I included this tree in my <a href="#perlinWorld">Perlin world</a> sketch, I thought I would expalin how it works here (even though I don't use Perlin noise!).</p>
+											<p>The program works by recursively (repeatedly until a point) performing almost the exact same action. It starts at the bottom of the screen and moves forward a line of length <code>len</code>. Then it turns to the left, draws a line of length <code>len/3</code> then again but to the right. It then moves to the left and then lines and repeats these steps with the new length of the shorter lines.</p>
+										</div>
+										<div class="col-4 col-12-small">
+											<div id="recursiveTreeGrow"></div>
+										</div>
+										<div class="col-4 col-12-small">
+											<div id="recursiveTree"></div>
+										</div>
 									</div>
+
 								<hr class="major" />
 							</section>
 						</div>
@@ -135,6 +157,8 @@
 			<script src="perlin1d.js"></script>
 			<script src="perlin2d.js"></script>
 			<script src="perlinWorld.js"></script>
+			<script src="recursiveTree.js"></script>
+			<script src="recursiveTreeGrow.js"></script>
 			<!-- Sketch managing files -->
 			<script src="Managers/sketchManager.js"></script>
 			<script src="Managers/loadManager.js"></script>
