@@ -5,28 +5,39 @@ function perlinWorld(p, sketchManager) {
   let Clouds;
   let Trees;
   let off;
+  let resizing = false;
 
   //// at the top of every sketch
   p.setup = function() {
+    sizes = getWidthAndHeight();
+    let canvas = p.createCanvas(sizes[0], sizes[1]);
     let container = document.getElementById("perlinWorld");
-    let style = getComputedStyle(container);
-    let contentWidth = container.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-    let contentHeight = contentWidth //p.min(contentWidth, 600);
-    let canvas = p.createCanvas(contentWidth, contentHeight);
-    canvas.parent(container);
-    resetSketch();
-
-    const resetButton = p.createButton("Reset");
-    resetButton.class("fit");
-    resetButton.parent(container);
-    resetButton.mousePressed(resetSketch);
-    
+    canvas.parent(container);    
     canvas.mousePressed(function() {
       if (p.sketchManager) {
         p.sketchManager.toggleLoop(p);
       }
     });
+
+    resetSketch();
+
+    document.getElementById("perlinWorld_reset").onclick = function() {resetSketch()};
   };
+
+  function getWidthAndHeight() {
+    let container = document.getElementById("perlinWorld");
+    let style = getComputedStyle(container);
+    let contentWidth = container.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+    let contentHeight = contentWidth//p.min(contentWidth, 600);
+    return [contentWidth, contentHeight];
+  }
+
+  p.windowResized = function() {
+    sizes = getWidthAndHeight();
+    p.resizeCanvas(sizes[0], sizes[1]);
+    resetSketch();
+    resizing = true;
+  } 
 
   function resetSketch() {
     /// Unique to this sketch
@@ -62,18 +73,30 @@ function perlinWorld(p, sketchManager) {
 
     for (let i = 0; i < p.width; i++) {
       scene(i);
-    }
-
-    off += 0.005;
+    }    
     p.stroke(250, 215, 30);
     sun.draw();
+    
     for (const element of Clouds) {
-      element.move();
       element.draw();
     }
+    
     for (const element of Trees) {
-      // Trees[i].move(); // Uncomment if trees need to move
       element.draw();
+    }
+
+    if (!resizing){
+      off += 0.005;
+      sun.move();
+
+    for (const element of Clouds) {
+      element.move();
+    }
+
+    for (const element of Trees) {
+      element.move();
+    }} else {
+      resizing = false;
     }
   };
 
@@ -105,6 +128,7 @@ function perlinWorld(p, sketchManager) {
       }
 
       this.xoff += 0.02;
+      this.yoff += 0.01;
 
       if (this.points[this.points.length - 1].x >= p.width) {
         for (const element of this.points) {
@@ -118,9 +142,10 @@ function perlinWorld(p, sketchManager) {
       p.fill(255);
       p.stroke(255);
       p.beginShape();
+      
       for (let i = 0; i < this.points.length; i++) {
         let y = p.map(p.noise(this.yoff), 0, 1, -p.height * 0.05, p.height * 0.05);
-        this.yoff += 0.0001;
+        
         if (i % 2 == 0) {
           p.ellipse(this.points[i].x, this.points[i].y + y, this.points[i].z);
         }
@@ -137,11 +162,14 @@ function perlinWorld(p, sketchManager) {
       this.r = p.width * 0.2;
       this.off = 0;
     }
+    move() {
+      this.off += 0.05;
+    }
+
     draw() {
       p.fill(250, 215, 30);
       this.r = p.map(p.sin(this.off), -1, 1, p.min(p.width, p.height) / 5, p.min(p.width, p.height)/4);
       p.ellipse(this.x, this.y, this.r);
-      this.off += 0.05;
     }
   }
 
@@ -179,10 +207,12 @@ function perlinWorld(p, sketchManager) {
         this.branch(h);
         p.pop();
       }
-      this.offset += 0.00001;
     }
     calc(x) {
       this.theta = p.radians(x / 500) * 360;
+    }
+    move() {
+      this.offset += 0.002;
     }
     draw() {
       p.stroke(100, 70, 30);
