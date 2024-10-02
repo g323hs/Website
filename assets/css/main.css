@@ -763,46 +763,57 @@ hr {
       .row > .col-0-small {
         display: none; }
       .row > .col-1-small {
+        display: initial;
         width: 8.33333%; }
       .row > .off-1-small {
         margin-left: 8.33333%; }
       .row > .col-2-small {
+        display: initial;
         width: 16.66667%; }
       .row > .off-2-small {
         margin-left: 16.66667%; }
       .row > .col-3-small {
+        display: initial;
         width: 25%; }
       .row > .off-3-small {
         margin-left: 25%; }
       .row > .col-4-small {
+        display: initial;
         width: 33.33333%; }
       .row > .off-4-small {
         margin-left: 33.33333%; }
       .row > .col-5-small {
+        display: initial;
         width: 41.66667%; }
       .row > .off-5-small {
         margin-left: 41.66667%; }
       .row > .col-6-small {
+        display: initial;
         width: 50%; }
       .row > .off-6-small {
         margin-left: 50%; }
       .row > .col-7-small {
+        display: initial;
         width: 58.33333%; }
       .row > .off-7-small {
         margin-left: 58.33333%; }
       .row > .col-8-small {
+        display: initial;
         width: 66.66667%; }
       .row > .off-8-small {
         margin-left: 66.66667%; }
       .row > .col-9-small {
+        display: initial;
         width: 75%; }
       .row > .off-9-small {
         margin-left: 75%; }
       .row > .col-10-small {
+        display: initial;
         width: 83.33333%; }
       .row > .off-10-small {
         margin-left: 83.33333%; }
       .row > .col-11-small {
+        display: initial;
         width: 91.66667%; }
       .row > .off-11-small {
         margin-left: 91.66667%; }

@@ -2,28 +2,38 @@ function perlin1d(p, sketchManager) {
   p.sketchManager = sketchManager;
 
   let time, start;
+  let resizing = false;
 
   //// at the top of every sketch
   p.setup = function() {
+    sizes = getWidthAndHeight();
+    let canvas = p.createCanvas(sizes[0], sizes[1]);
     let container = document.getElementById("perlin1d");
-    let style = getComputedStyle(container);
-    let contentWidth = container.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-    let contentHeight = contentWidth//p.min(contentWidth, 600);
-    let canvas = p.createCanvas(contentWidth, contentHeight);
     canvas.parent(container);
-    resetSketch();
-
-    const resetButton = p.createButton("Reset");
-    resetButton.class("fit");
-    resetButton.parent(container);
-    resetButton.mousePressed(resetSketch);
-    
     canvas.mousePressed(function() {
       if (p.sketchManager) {
         p.sketchManager.toggleLoop(p);
       }
     });
+    
+    resetSketch();
+
+    document.getElementById("perlin1d_reset").onclick = function() {resetSketch()};
   };
+
+  function getWidthAndHeight() {
+    let container = document.getElementById("perlin1d");
+    let style = getComputedStyle(container);
+    let contentWidth = container.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+    let contentHeight = contentWidth//p.min(contentWidth, 600);
+    return [contentWidth, contentHeight];
+  }
+
+  p.windowResized = function() {
+    sizes = getWidthAndHeight();
+    p.resizeCanvas(sizes[0], sizes[1]);
+    resizing = true;
+  } 
 
   function resetSketch() {
     /// Unique to this sketch
@@ -43,7 +53,10 @@ function perlin1d(p, sketchManager) {
       p.strokeWeight(0.2);
       p.ellipse(x, y, 10);
       off += 0.01;
-    }  
-    time += 0.01;
+    }
+    if (!resizing){
+    time += 0.01;} else {
+      resizing = false;
+    }
   };  
 }
