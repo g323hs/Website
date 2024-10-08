@@ -1,7 +1,7 @@
 class SketchManager {
   constructor() {
     this.activeSketch = null;
-    this.loopSketches = ["perlin1d","perlin2d","perlinWorld","recursiveTree","recursiveTreeGrow","marchingSquares"];
+    this.loopSketches = ["perlinCalcs","perlin1d","perlin2d","perlinWorld","recursiveTree","recursiveTreeGrow","marchingSquares"];
   }
 
   setActiveSketch(sketchInstance) {

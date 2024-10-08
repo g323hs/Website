@@ -1,9 +1,4 @@
 <!DOCTYPE HTML>
-<!--
-	Editorial by HTML5 UP
-	html5up.net | @ajlkn
-	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
--->
 <html lang="en">
 	<head>
 		<title>Perlin Noise</title>
@@ -42,13 +37,41 @@
 									<hr>
 									<div class="row">
 										<div class="col-8 col-12-small">
-											<h3>Perlin noise in 1 dimension</h3>
-											<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat commodo eu sed ante lacinia. Sapien a lorem in integer ornare praesent commodo adipiscing arcu in massa commodo lorem accumsan at odio massa ac ac. Semper adipiscing varius montes viverra nibh in adipiscing blandit tempus accumsan.</p>
+											<h3>Grid definition</h3>
+											<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat commodo eu sed ante lacinia. Sapien a lorem in integer ornare praesent commodo adipiscing arcu in massa commodo lorem accumsan at odio massa ac ac. Semper adipiscing varius montes viverra nibh in adipiscing blandit tempus accumsan.
+											</p>
 										</div>
 										<!-- Break when small -->
 										<div class="col-0 col-1-small"></div>
 										<div class="col-4 col-10-small">
-											<div id="perlin1d"></div>
+											<div id="gridDefine" class="sketch"></div>
+											<button class="fit" id="gridDefine_reset">Reset</button>
+										</div>
+										<div class="col-0 col-1-small"></div>
+
+										<!-- Break -->
+										<div class="col-8 col-12-small">
+											<h3>Explaining the calculations</h3>
+											<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat commodo eu sed ante lacinia. Sapien a lorem in integer ornare praesent commodo adipiscing arcu in massa commodo lorem accumsan at odio massa ac ac. Semper adipiscing varius montes viverra nibh in adipiscing blandit tempus accumsan.
+											</p>
+										</div>
+										<!-- Break when small -->
+										<div class="col-0 col-1-small"></div>
+										<div class="col-4 col-10-small">
+											<div id="perlinCalcs" class="sketch"></div>
+											<button class="fit" id="perlinCalcs_reset">Reset</button>
+										</div>
+										<div class="col-0 col-1-small"></div>
+
+										<!-- Break -->
+										<div class="col-8 col-12-small">
+											<h3>Perlin noise in 1 dimension</h3>
+											<p>Here we follow the algorithm for Perlin noise in 1 dimension. We plot it's value on the y-axis for each time step we take along the x-axis. This creates a smooth looking curve that from values mapped from -1 to 1 onto the height of the canvas through interpolatoin. </p>
+										</div>
+										<!-- Break when small -->
+										<div class="col-0 col-1-small"></div>
+										<div class="col-4 col-10-small">
+											<div id="perlin1d" class="sketch"></div>
 											<button class="fit" id="perlin1d_reset">Reset</button>
 										</div>
 										<div class="col-0 col-1-small"></div>
@@ -60,7 +83,7 @@
 										<!-- Break when small-->
 										<div class="col-0 col-1-small"></div>
 										<div class="col-4 col-10-small">
-											<div id="perlin2d"></div>
+											<div id="perlin2d" class="sketch"></div>
 											<button class="fit" id="perlin2d_reset">Reset</button>
 										</div>
 										<div class="col-0 col-1-small"></div>
@@ -82,7 +105,7 @@
 										<!-- Break -->
 										<div class="col-2 col-1-small"></div>
 										<div class="col-8 col-10-small">
-											<div id="perlinWorld"></div>
+											<div id="perlinWorld" class="sketch"></div>
 											<button class="fit" id="perlinWorld_reset">Reset</button>
 										</div>
 										<div class="col-2 col-1-small"></div>
@@ -97,10 +120,10 @@
 											<p>The program works by recursively (repeatedly until a point) performing almost the exact same action. It starts at the bottom of the screen and moves forward a line of length <code>len</code>. Then it turns to the left, draws a line of length <code>len/3</code> then again but to the right. It then moves to the left and then lines and repeats these steps with the new length of the shorter lines.</p>
 										</div>
 										<div class="col-4 col-12-small">
-											<div id="recursiveTreeGrow"></div>
+											<div id="recursiveTreeGrow" class="sketch"></div>
 										</div>
 										<div class="col-4 col-12-small">
-											<div id="recursiveTree"></div>
+											<div id="recursiveTree" class="sketch"></div>
 										</div>
 									</div>
 
@@ -123,7 +146,7 @@
 										<li>
 											<span class="opener">Projects</span>
 											<ul>
-												<li><a href="#">Perlin Noise</a></li>
+												<li><a href="perlin.html">Perlin Noise</a></li>
 												<li><a href="#">Path Finding</a></li>
 												<li><a href="#">A-Level Project</a></li>
 											</ul>
@@ -163,6 +186,8 @@
 
 			<!-- Sketches -->
 			<script src="../../assets/js/p5.js"></script>
+			<script src="gridDefine.js"></script>
+			<script src="perlinCalcs.js"></script>
 			<script src="perlin1d.js"></script>
 			<script src="perlin2d.js"></script>
 			<script src="perlinWorld.js"></script>

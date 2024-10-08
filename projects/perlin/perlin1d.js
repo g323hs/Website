@@ -48,9 +48,9 @@ function perlin1d(p, sketchManager) {
   p.draw = function() {
     p.background(0); 
     let off = 0;
-    for (let x = 0; x < p.width; x++) {
+    for (let x = 0; x < p.width*0.9; x++) {
       let y = p.map(p.noise(start + off + time), 0, 1, 0, p.height);
-      p.strokeWeight(0.2);
+      p.noStroke();
       p.ellipse(x, y, 10);
       off += 0.01;
     }
