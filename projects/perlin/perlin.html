@@ -36,14 +36,22 @@
 									<p>Perlin Noise is a gradient (smooth) noise function developed by Ken Perlin, commonly used in computer graphics to generate natural-looking textures and effects. It produces smoothly interpolated random values, making it ideal for simulating organic forms such as clouds, terrain, and waves. Unlike simple random noise, Perlin Noise offers coherent, continuous patterns that avoid harsh transitions. To learn more, visit the <a href="https://en.wikipedia.org/wiki/Perlin_noise">Perlin Noise Wikipedia page</a>.</p>
 									<hr>
 									<div class="row">
-										<div class="col-8 col-12-small">
+										<div class="col-6 col-12-small">
 											<h3>Grid definition</h3>
-											<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat commodo eu sed ante lacinia. Sapien a lorem in integer ornare praesent commodo adipiscing arcu in massa commodo lorem accumsan at odio massa ac ac. Semper adipiscing varius montes viverra nibh in adipiscing blandit tempus accumsan.
+											<p>We start our journey by defining a grid. This grid is made up of some number of columns and rows (shown in black) specified by us below and within each cell we have a resolution (shown in grey). 
 											</p>
+											<div>
+												<ul>
+													<li>Columns: <input id="gridDefine_cols" type="number" min="1" max="5" step="1" value="3"> </li>
+													<li>Rows: <input id="gridDefine_rows" type="number" min="1" max="5" step="1" value="2"> </li>
+													<li>Resolution <input id="gridDefine_rez" type="number" min="1" max="5" step="1" value="3"> </li>
+												</ul>
+											</div>
+											<p>We will use a high resolution and more columns and rows to give a better view of how on a large scale the algorithm generates a smooth, blury looking noise.</p>
 										</div>
 										<!-- Break when small -->
 										<div class="col-0 col-1-small"></div>
-										<div class="col-4 col-10-small">
+										<div class="col-6 col-10-small">
 											<div id="gridDefine" class="sketch"></div>
 											<button class="fit" id="gridDefine_reset">Reset</button>
 										</div>

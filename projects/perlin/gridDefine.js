@@ -1,11 +1,11 @@
 function gridDefine(p, sketchManager) {
     p.sketchManager = sketchManager;
     
-    const inpCols = 3;
-    const inpRows = 3;
-    const cols = inpCols + 2;
-    const rows = inpRows + 2;
-    const rez = 2;
+    let inpCols = parseInt(document.getElementById("gridDefine_cols").value);
+    let inpRows = parseInt(document.getElementById("gridDefine_rows").value);
+    let cols = inpCols + 2;
+    let rows = inpRows + 2;
+    let rez = parseInt(document.getElementById("gridDefine_rez").value);
 
     let pixelWidth;
     let resizing = false;
@@ -25,6 +25,10 @@ function gridDefine(p, sketchManager) {
       resetSketch();
   
       document.getElementById("gridDefine_reset").onclick = function() {resetSketch()};
+      document.getElementById("gridDefine_cols").addEventListener("change", function() {checkInputs();});
+      document.getElementById("gridDefine_rows").addEventListener("change", function() {checkInputs();});
+      document.getElementById("gridDefine_rez").addEventListener("change", function() {checkInputs();});
+
     };
   
     // Draw pixels
@@ -51,15 +55,48 @@ function gridDefine(p, sketchManager) {
     } 
   
     function resetSketch() {
-      /// Unique to this sketch   
+      /// Unique to this sketch
+      inpCols = validInput("gridDefine_cols");
+      inpRows = validInput("gridDefine_rows");
+      cols = inpCols + 2;
+      rows = inpRows + 2;
+      rez = validInput("gridDefine_rez");
+      resizing = false;
       p.loop();
       ///
       p.noLoop();
   
     }
     ////
+
+    function validInput(id) {
+      let elt = document.getElementById(id);
+      // max bound
+      if (parseInt(elt.value) > parseInt(elt.max)) {
+        elt.value = elt.max;
+      }
+      // min bound
+      if (parseInt(elt.value) < parseInt(elt.min)) {
+        elt.value = elt.max;
+      }
+      if (parseFloat(elt.value)%parseFloat(elt.step) != 0) {
+        elt.value = parseFloat(elt.value) - parseFloat(elt.value)%parseFloat(elt.step);
+      }
+      return parseInt(elt.value)
+    }
+
+    function checkInputs() {
+      if (inpCols != parseInt(document.getElementById("gridDefine_cols").value) ||
+          inpRows != parseInt(document.getElementById("gridDefine_rows").value) ||
+          rez != parseInt(document.getElementById("gridDefine_rez").value)) {
+          resetSketch();
+          p.windowResized();
+      }
+    }
   
     p.draw = function() {
+        checkInputs();
+
         p.background(255);
   
         // Draw grid lines
