@@ -10,7 +10,8 @@ function perlinCalcs(p, sketchManager) {
     const do_fade = true;
 
     const displayVectors = true;
-    const displayInterp = false;
+    const displayInterp = true;
+    const displayCells = false;
 
     let angles;
     
@@ -95,6 +96,28 @@ function perlinCalcs(p, sketchManager) {
     }
     ////
   
+    function drawVector(Ax, Ay, Bx, By) {
+        // Draw the main line (vector body)
+        p.line(Ax, Ay, Bx, By);
+        
+        // Calculate the angle of the line
+        let angle = p.atan2(By - Ay, Bx - Ax);
+        
+        // Define the size of the arrowhead
+        let arrowSize = 10;/////////////////////Scale 
+        
+        // Draw the arrowhead using lines
+        p.push();
+        p.translate((Ax+Bx)/2, (Ay+By)/2);  // Move to the end of the vector
+        p.rotate(angle);        // Rotate the arrow to align with the vector
+        
+        // Draw two lines to form the arrowhead
+        p.line(0, 0, -arrowSize, arrowSize / 2);
+        p.line(0, 0, -arrowSize, -arrowSize / 2);
+        
+        p.pop();
+    }
+
     function fade(t) {
         let tot = 0;
         for (let i = 0; i < coefficients.length; i ++) {
@@ -137,12 +160,13 @@ function perlinCalcs(p, sketchManager) {
                         p.strokeWeight(1);
                         p.stroke(p.map(val, -1, 1, 0, 255));
                         p.fill(p.map(val, -1, 1, 0, 255));
-                        
-                        p.rect(
-                            ((col + 1) * rez + j) * pixelWidth, 
-                            ((row + 1) * rez + i) * pixelWidth, 
-                            pixelWidth, 
-                            pixelWidth);
+                        if (displayCells) {
+                            p.rect(
+                                ((col + 1) * rez + j) * pixelWidth, 
+                                ((row + 1) * rez + i) * pixelWidth, 
+                                pixelWidth, 
+                                pixelWidth);
+                        }
                             
                         //p.line((col + 1) * rez * pixelWidth, rez / 4 * pixelWidth ,);
                             
@@ -247,13 +271,13 @@ function perlinCalcs(p, sketchManager) {
         // Draw random vectors
         if (displayVectors) {
             p.strokeWeight(5);
-            p.stroke(255, 0, 0);
+            p.stroke(255, 0, 0, 50);
             for (let i = 0; i < cols + 1; i += 1) {
                 for (let j = 0; j < rows + 1; j += 1) {
-                    p.line((i + 1) * rez * pixelWidth, 
-                        (j + 1) * rez * pixelWidth, 
-                        ((i + 1) + grid[i][j][0]) * rez * pixelWidth, 
-                        ((j + 1) + grid[i][j][1]) * rez * pixelWidth);
+                    drawVector((i + 1) * rez * pixelWidth, 
+                    (j + 1) * rez * pixelWidth, 
+                    ((i + 1) + grid[i][j][0]) * rez * pixelWidth, 
+                    ((j + 1) + grid[i][j][1]) * rez * pixelWidth);
                 }
             }
         }
@@ -285,11 +309,12 @@ function perlinCalcs(p, sketchManager) {
             let y0 = (row + 1) * rez * pixelWidth + (j + 0.5) * pixelWidth;
 
             p.strokeWeight(5);
-            p.stroke(173,216,230);
-            p.line((col + 1) * rez * pixelWidth, (row + 1) * rez * pixelWidth, x0, y0);
-            p.line((col + 1) * rez * pixelWidth, (row + 2) * rez * pixelWidth, x0, y0);
-            p.line((col + 2) * rez * pixelWidth, (row + 1) * rez * pixelWidth, x0, y0);
-            p.line((col + 2) * rez * pixelWidth, (row + 2) * rez * pixelWidth, x0, y0);
+            p.stroke(0,0,255, 50);
+            drawVector((col + 1) * rez * pixelWidth, (row + 1) * rez * pixelWidth, x0, y0);
+            drawVector((col + 1) * rez * pixelWidth, (row + 2) * rez * pixelWidth, x0, y0);
+            drawVector((col + 2) * rez * pixelWidth, (row + 1) * rez * pixelWidth, x0, y0);
+            drawVector((col + 2) * rez * pixelWidth, (row + 2) * rez * pixelWidth, x0, y0);
+            
             p.noStroke();
             p.fill(0);
             p.circle(x0, y0, pixelWidth / 3);

@@ -1,6 +1,7 @@
 function gridDefine(p, sketchManager) {
     p.sketchManager = sketchManager;
     
+    reset_button();
     let inpCols = parseInt(document.getElementById("gridDefine_cols").value);
     let inpRows = parseInt(document.getElementById("gridDefine_rows").value);
     let cols = inpCols + 2;
@@ -21,10 +22,10 @@ function gridDefine(p, sketchManager) {
           p.sketchManager.toggleLoop(p);
         }
       });
-  
+      
       resetSketch();
   
-      document.getElementById("gridDefine_reset").onclick = function() {resetSketch()};
+      document.getElementById("gridDefine_reset").onclick = function() {reset_button()};
       document.getElementById("gridDefine_cols").addEventListener("change", function() {checkInputs();});
       document.getElementById("gridDefine_rows").addEventListener("change", function() {checkInputs();});
       document.getElementById("gridDefine_rez").addEventListener("change", function() {checkInputs();});
@@ -53,6 +54,13 @@ function gridDefine(p, sketchManager) {
       p.resizeCanvas(sizes[0], sizes[1]);
       resizing = true;
     } 
+
+    function reset_button() {
+      document.getElementById("gridDefine_cols").value = 3;
+      document.getElementById("gridDefine_rows").value = 2;
+      document.getElementById("gridDefine_rez").value = 3;
+      p.redraw();
+    }
   
     function resetSketch() {
       /// Unique to this sketch
@@ -62,9 +70,7 @@ function gridDefine(p, sketchManager) {
       rows = inpRows + 2;
       rez = validInput("gridDefine_rez");
       resizing = false;
-      p.loop();
-      ///
-      p.noLoop();
+      p.redraw();
   
     }
     ////

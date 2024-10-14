@@ -1,6 +1,7 @@
 const sketchManager = new SketchManager();
 
 const gridDefineInstance = new p5((p) => gridDefine(p, sketchManager), 'gridDefine');
+const randomNoiseInstance = new p5((p) => randomNoise(p, sketchManager), 'randomNoise');
 const perlinCalcsInstance = new p5((p) => perlinCalcs(p, sketchManager), 'perlinCalcs');
 const perlin1dInstance = new p5((p) => perlin1d(p, sketchManager), 'perlin1d');
 const perlin2dInstance = new p5((p) => perlin2d(p, sketchManager), 'perlin2d');

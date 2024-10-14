@@ -28,44 +28,92 @@
 							<!-- Content -->
 							<section>
 								<header class="main">
-									<h1>Perlin Noise</h1>
+									<h1>Perlin noise</h1>
 								</header>
 
 								<!-- Content -->
-									<h2 id="content">What is Perlin noise?</h2>
-									<p>Perlin Noise is a gradient (smooth) noise function developed by Ken Perlin, commonly used in computer graphics to generate natural-looking textures and effects. It produces smoothly interpolated random values, making it ideal for simulating organic forms such as clouds, terrain, and waves. Unlike simple random noise, Perlin Noise offers coherent, continuous patterns that avoid harsh transitions. To learn more, visit the <a href="https://en.wikipedia.org/wiki/Perlin_noise">Perlin Noise Wikipedia page</a>.</p>
+									<h2 id="content">What is Perlin Noise?</h2>
+									<p> To start with I will clear up a common misconception about the noise I am on about here. Sadly I don't mean a sweet melodic tune but instead  a scalar field of values ranging from 1 to -1. </p>
+									<p>
+										A <strong>scalar field</strong> is a function that assigns a value to every point in a space. For two a two-dimensional scalar field imagine a particular height above a point in the plane. Written mathematically,
+										
+										∀ <em>P</em> = (x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>) ∈ ℝ<sup>n</sup> apply the function <em>ϕ: ℝ<sup>n</sup> → ℝ</em>. The value of a scalar field at a point is given by <em>ϕ(P)</em>.
+									</p>
+
+									<p> Perlin noise is a gradient (smoothed) noise function developed by Ken Perlin, commonly used in computer graphics to generate natural-looking textures and effects. It produces smoothly interpolated random values, making it ideal for simulating organic forms such as clouds, terrain, and waves. Unlike classic random noise, Perlin noise offers coherent, continuous patterns that avoid harsh transitions. To learn more, visit the <a href="https://en.wikipedia.org/wiki/Perlin_noise">Perlin noise Wikipedia page</a>, but I shall do my best to explain it as we go.
+									</p>
+									<p>The definition I have just given tells us the scalar value at <u>any</u> real-valued point. However, as we will see to generate our noise we use a discrete grid of points. This means that we adapt our definition to a finite set of equally spaced out points.</p>
 									<hr>
+
+									<h2>The Algorithm</h2>
 									<div class="row">
-										<div class="col-6 col-12-small">
+										<div class="col-12 col-12-small">
 											<h3>Grid definition</h3>
-											<p>We start our journey by defining a grid. This grid is made up of some number of columns and rows (shown in black) specified by us below and within each cell we have a resolution (shown in grey). 
+											<p> We shall start off by looking at the 2d instance of Perlin noise as I think it is the most intuitive. To set up our grid all we need are a number of columns, rows and resolution. The resolution quared is the number of pixels that will be in each cell of our grid.
 											</p>
+										</div>
+										<div class="col-6 col-12-small">
 											<div>
-												<ul>
-													<li>Columns: <input id="gridDefine_cols" type="number" min="1" max="5" step="1" value="3"> </li>
-													<li>Rows: <input id="gridDefine_rows" type="number" min="1" max="5" step="1" value="2"> </li>
-													<li>Resolution <input id="gridDefine_rez" type="number" min="1" max="5" step="1" value="3"> </li>
+												<ul class="alt">
+													<li>Columns: <input id="gridDefine_cols" type="number" min="1" max="5" step="1"> </li>
+													<li>Rows: <input id="gridDefine_rows" type="number" min="1" max="5" step="1"> </li>
+													<li>Resolution <input id="gridDefine_rez" type="number" min="1" max="5" step="1"> </li>
+													<li><button class="fit" id="gridDefine_reset">Reset</button></li>
 												</ul>
 											</div>
-											<p>We will use a high resolution and more columns and rows to give a better view of how on a large scale the algorithm generates a smooth, blury looking noise.</p>
+											<p>Here we only use small numbers to clearly demonstrate the algorithm but in practice our resolution, especially, would be higher.</p>
 										</div>
 										<!-- Break when small -->
 										<div class="col-0 col-1-small"></div>
 										<div class="col-6 col-10-small">
 											<div id="gridDefine" class="sketch"></div>
-											<button class="fit" id="gridDefine_reset">Reset</button>
+											
 										</div>
 										<div class="col-0 col-1-small"></div>
 
 										<!-- Break -->
-										<div class="col-8 col-12-small">
+										<div class="col-6 col-12-small">
 											<h3>Explaining the calculations</h3>
-											<p>Nunc lacinia ante nunc ac lobortis. Interdum adipiscing gravida odio porttitor sem non mi integer non faucibus ornare mi ut ante amet placerat aliquet. Volutpat commodo eu sed ante lacinia. Sapien a lorem in integer ornare praesent commodo adipiscing arcu in massa commodo lorem accumsan at odio massa ac ac. Semper adipiscing varius montes viverra nibh in adipiscing blandit tempus accumsan.
+											<h4 style="text-align: center;">Random nosie cell</h4>
+											<p>To give a point of reference this is what random noise looks like. This should hopefully be remencient of TV static. Older TV screens would go static due to interference.</p>
+											<p>That is not what we are doing here, the premise we are interested in is when a TV struggles to find a signal it amplifies what it does have. This is to hopefully have some clarity shown for a poor signal. However the TV couldn't differentiate poor signals from no signals. This would lead it to amplifying whatever data it was receiving which was 'noise' with no distuingishable shape, pattern or consistency over time. 
 											</p>
 										</div>
 										<!-- Break when small -->
 										<div class="col-0 col-1-small"></div>
-										<div class="col-4 col-10-small">
+										<div class="col-6 col-10-small">
+											<div id="randomNoise" class="sketch"></div>
+										</div>
+										<div class="col-0 col-1-small"></div>
+										
+
+										<!-- Break -->
+										<div class="col-6 col-12-small">
+											<h4 style="text-align: center;">Perlin noise cell</h4>
+											<p>The motivation of perlin noise is essentially to get a smooth version of the random noise above. To achive this Kevin Perlin devised the following algorithm. To make it easier to understand we will just look at one cell of a grid with a resolution of 5.
+												<form method="post" action="#">
+													<div class="">
+														<input type="radio" id="demo-priority-low" name="demo-priority" checked>
+														<label for="demo-priority-low">Stage 1: </label>
+														<p>We start by creating a vector with length 1 at each corner of our cells at a random direction, shown in red. This is the only time that we use the same random funciton as we used above. Instead of mapping that value to a colour it is mapped to an angle for our vector. We also create a vector from the corners of the cell to the centre of of our pixel (the vectors are drawn to scale relative to each other and the cell has a given width of 1). </p>
+
+													</div>
+													<div class="">
+														<input type="radio" id="demo-priority-normal" name="demo-priority">
+														<label for="demo-priority-normal">Stage 2</label>
+													</div>
+													<div class="">
+														<input type="radio" id="demo-priority-high" name="demo-priority">
+														<label for="demo-priority-high">Stage 3</label>
+													</div>
+													
+												</form>
+											</p>
+										</div>
+
+										<!-- Break when small -->
+										<div class="col-0 col-1-small"></div>
+										<div class="col-6 col-10-small">
 											<div id="perlinCalcs" class="sketch"></div>
 											<button class="fit" id="perlinCalcs_reset">Reset</button>
 										</div>
@@ -154,7 +202,7 @@
 										<li>
 											<span class="opener">Projects</span>
 											<ul>
-												<li><a href="perlin.html">Perlin Noise</a></li>
+												<li><a href="perlin.html">Perlin noise</a></li>
 												<li><a href="#">Path Finding</a></li>
 												<li><a href="#">A-Level Project</a></li>
 											</ul>
@@ -195,6 +243,7 @@
 			<!-- Sketches -->
 			<script src="../../assets/js/p5.js"></script>
 			<script src="gridDefine.js"></script>
+			<script src="randomNoise.js"></script>
 			<script src="perlinCalcs.js"></script>
 			<script src="perlin1d.js"></script>
 			<script src="perlin2d.js"></script>

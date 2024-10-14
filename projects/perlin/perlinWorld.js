@@ -9,7 +9,7 @@ function perlinWorld(p, sketchManager) {
 
   //// at the top of every sketch
   p.setup = function() {
-    sizes = getWidthAndHeight();
+    let sizes = getWidthAndHeight();
     let canvas = p.createCanvas(sizes[0], sizes[1]);
     let container = document.getElementById("perlinWorld");
     canvas.parent(container);    
@@ -33,7 +33,7 @@ function perlinWorld(p, sketchManager) {
   }
 
   p.windowResized = function() {
-    sizes = getWidthAndHeight();
+    let sizes = getWidthAndHeight();
     p.resizeCanvas(sizes[0], sizes[1]);
     resetSketch();
     resizing = true;
