@@ -9,9 +9,9 @@ function perlinCalcs(p, sketchManager) {
     const coefficients = [0, 0, 10, -15, 6];
     const do_fade = true;
 
-    const displayVectors = true;
-    const displayInterp = true;
-    const displayCells = false;
+    let displayVectors = true;
+    let displayInterp = true;
+    let displayCells = false;
 
     let angles;
     
@@ -35,10 +35,11 @@ function perlinCalcs(p, sketchManager) {
           p.sketchManager.toggleLoop(p);
         }
       });
-  
+      checkInput();
       resetSketch();
   
       document.getElementById("perlinCalcs_reset").onclick = function() {resetSketch()};
+      document.getElementById("perlinCalcs_inputs").addEventListener("change", function(){checkInput();});
     };
   
     function getWidthAndHeight() {
@@ -64,7 +65,7 @@ function perlinCalcs(p, sketchManager) {
     } 
   
     function resetSketch() {
-        /// Unique to this sketch  
+        /// Unique to this sketch 
         p.frameRate(rows * cols * rez * rez / 5);
         
         hCol = 0;
@@ -321,6 +322,40 @@ function perlinCalcs(p, sketchManager) {
         }
     }
 
+    function checkInput() {
+        step_selected = document.querySelector('input[name="perlinCalcs_step_input"]:checked').id;
+        
+        let t1 = document.getElementById("step1_text");
+        let t2 = document.getElementById("step2_text");
+        let t3 = document.getElementById("step3_text");
+
+        t1.style.display = "none";
+        t2.style.display = "none";
+        t3.style.display = "none";
+        
+        switch(step_selected) {
+            case "perlinCalcs_step_1":
+                t1.style.display = "block";
+                displayVectors = true;
+                displayInterp = false;
+                displayCells = false;
+                break;
+            case "perlinCalcs_step_2":
+                t2.style.display = "block";
+                displayVectors = true;
+                displayInterp = true;
+                displayCells = false;
+                break;
+            case "perlinCalcs_step_3":
+                t3.style.display = "block";
+                displayVectors = false;
+                displayInterp = false;
+                displayCells = true;
+                break;
+        }
+        p.redraw();
+    }
+    
     p.draw = function() {
         p.background(255);
         
