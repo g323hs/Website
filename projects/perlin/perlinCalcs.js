@@ -1,13 +1,15 @@
 function perlinCalcs(p, sketchManager) {
     p.sketchManager = sketchManager;
-    
-    const cols = 1;
-    const rows = 1;
-    const structureCols = cols + 2;
-    const structureRows = rows + 2;
-    const rez = 5;
-    const coefficients = [0, 0, 10, -15, 6];
-    const do_fade = true;
+
+    reset_inp_button(true);
+    let cols = parseInt(document.getElementById("perlinCalcs_cols").value);
+    let rows = parseInt(document.getElementById("perlinCalcs_rows").value);
+    let structureCols = cols + 2;
+    let structureRows = rows + 2;
+    let rez = parseInt(document.getElementById("perlinCalcs_rez").value);
+    let show_grid = document.getElementById("perlinCalcs_show_grid").checked;
+    let coefficients = [0, 0, 10, -15, 6];
+    let do_fade = true;
 
     let displayVectors = true;
     let displayInterp = true;
@@ -35,11 +37,22 @@ function perlinCalcs(p, sketchManager) {
           p.sketchManager.toggleLoop(p);
         }
       });
-      checkInput();
+      check_step_input();
       resetSketch();
   
-      document.getElementById("perlinCalcs_reset").onclick = function() {resetSketch()};
-      document.getElementById("perlinCalcs_inputs").addEventListener("change", function(){checkInput();});
+      document.getElementById("perlinCalcs_reset").onclick = function() {resetSketch();};
+      document.getElementById("perlinCalcs_input_reset").onclick = function() {reset_inp_button(false);};
+      document.getElementById("perlinCalcs_cols").addEventListener("change", function() {checkInputs();});
+      document.getElementById("perlinCalcs_rows").addEventListener("change", function() {checkInputs();});
+      document.getElementById("perlinCalcs_rez").addEventListener("change", function() {checkInputs();});
+      document.getElementById("perlinCalcs_show_grid").addEventListener("change", function() {checkInputs();});
+
+
+      document.getElementById("perlinCalcs_step_1").addEventListener("change", function() {check_step_input();});
+
+      document.getElementById("perlinCalcs_step_2").addEventListener("change", function() {check_step_input();});
+
+      document.getElementById("perlinCalcs_step_3").addEventListener("change", function() {check_step_input();});
     };
   
     function getWidthAndHeight() {
@@ -62,10 +75,30 @@ function perlinCalcs(p, sketchManager) {
       let sizes = getWidthAndHeight();
       p.resizeCanvas(sizes[0], sizes[1]);
       resizing = true;
-    } 
-  
+    }
+
+    function reset_inp_button(first) {
+        let initial_cols = 1;
+        let initial_rows = 1;
+        let initial_rez = 5;
+        let initial_show_grid = true;
+        document.getElementById("perlinCalcs_cols").value = initial_cols;
+        document.getElementById("perlinCalcs_rows").value = initial_rows;
+        document.getElementById("perlinCalcs_rez").value = initial_rez;
+        document.getElementById("perlinCalcs_show_grid").checked = initial_show_grid;
+        if (!first) {
+            checkInputs();
+        }   
+    }
+
     function resetSketch() {
         /// Unique to this sketch 
+        cols = validInput("perlinCalcs_cols");
+        rows = validInput("perlinCalcs_rows");
+        structureCols = cols + 2;
+        structureRows = rows + 2;
+        rez = validInput("perlinCalcs_rez");
+
         p.frameRate(rows * cols * rez * rez / 5);
         
         hCol = 0;
@@ -91,11 +124,43 @@ function perlinCalcs(p, sketchManager) {
             }
             grid.push(temp);
         }
-        p.loop();
-        ///
         p.noLoop();
     }
     ////
+
+    function validInput(id) {
+        let elt = document.getElementById(id);
+        // max bound
+        if (parseInt(elt.value) > parseInt(elt.max)) {
+          elt.value = elt.max;
+        }
+        // min bound
+        if (parseInt(elt.value) < parseInt(elt.min)) {
+          elt.value = elt.max;
+        }
+        if (parseFloat(elt.value)%parseFloat(elt.step) != 0) {
+          elt.value = parseFloat(elt.value) - parseFloat(elt.value)%parseFloat(elt.step);
+        }
+        return parseInt(elt.value)
+    }
+  
+    function checkInputs() {
+
+        // need to redraw sketch
+        if (cols != parseInt(document.getElementById("perlinCalcs_cols").value) ||
+            rows != parseInt(document.getElementById("perlinCalcs_rows").value) ||
+            rez  != parseInt(document.getElementById("perlinCalcs_rez").value)) {
+            resetSketch();
+            p.windowResized();
+        }
+
+        // don't need to redraw sketch
+        console.log()
+        if (show_grid != document.getElementById("perlinCalcs_show_grid").checked) {
+            show_grid = document.getElementById("perlinCalcs_show_grid").checked;
+            p.redraw();
+        }
+    }
   
     function drawVector(Ax, Ay, Bx, By) {
         // Draw the main line (vector body)
@@ -250,7 +315,8 @@ function perlinCalcs(p, sketchManager) {
         // Draw grid lines
         p.strokeWeight(2);
         p.stroke(200);
-        for (let i = rez; i  + rez < structureCols * rez + 1; i += 1) {
+
+        for (let i = rez; i + rez < structureCols * rez + 1; i += 1) {
             p.line(i * pixelWidth, rez * pixelWidth, i * pixelWidth, p.height - rez * pixelWidth);
         }
         for (let j = rez; j + rez < structureRows * rez + 1; j += 1) {
@@ -322,8 +388,8 @@ function perlinCalcs(p, sketchManager) {
         }
     }
 
-    function checkInput() {
-        step_selected = document.querySelector('input[name="perlinCalcs_step_input"]:checked').id;
+    function check_step_input() {
+        let step_selected = document.querySelector('input[name="perlinCalcs_step_input"]:checked').id;
         
         let t1 = document.getElementById("step1_text");
         let t2 = document.getElementById("step2_text");
@@ -339,18 +405,21 @@ function perlinCalcs(p, sketchManager) {
                 displayVectors = true;
                 displayInterp = false;
                 displayCells = false;
+                show_grid = true;
                 break;
             case "perlinCalcs_step_2":
                 t2.style.display = "block";
                 displayVectors = true;
                 displayInterp = true;
                 displayCells = false;
+                show_grid = true;
                 break;
             case "perlinCalcs_step_3":
                 t3.style.display = "block";
                 displayVectors = false;
                 displayInterp = false;
                 displayCells = true;
+                checkInputs();
                 break;
         }
         p.redraw();
@@ -360,7 +429,9 @@ function perlinCalcs(p, sketchManager) {
         p.background(255);
         
         drawCells();
-        drawGrid();
+        if (show_grid) {
+            drawGrid();
+        }
 
         hilightCell(hRow, hCol, hI, hJ);
         drawCalculations(hRow, hCol, hI, hJ);
@@ -389,13 +460,10 @@ function perlinCalcs(p, sketchManager) {
             resizing = false;
         }
     };
-  }
-  
-  
-  // notes: add customisation controls width height cols toggles for arrows and grids and weighting for components, using fade or not
+}
+    
+  // notes: weighting for components, using fade or not
   
   // big idea see how other programs run using that 'custom perlin noise' v v interesting 
   
   // add animation for panning through 3d box version next to 2d version
-
-  // make vectors look like arrows!!!

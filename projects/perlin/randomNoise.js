@@ -23,6 +23,7 @@ function randomNoise(p, sketchManager) {
       });
       
       resetSketch();
+      p.frameRate(6);
     };
   
     // Draw pixels

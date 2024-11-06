@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- this is the script to load the p5.js library -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/p5.js/1.4.0/p5.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Orbiting Bodies</title>
+  </head>
+
+  <body>
+    <div class="row">
+      <div class="column">
+        <h2 id="logo">Orbiting Bodies</h2>
+        <div class="simulation_holder">
+          <div class="sketch_outer">
+            <main id="sketch_holder" title="Click on me and drag left or right to spin around the simulation">
+              <script src="sketch.js"></script>
+            </main>
+          </div>
+
+          <div class="button_holder">
+            <button type="button" onclick="start()" title="Press me to start the simulation" id="start">Start</button>
+            <button type="button" onclick="pause()" title="Press me to pause the simulation and again to spin it" id="pause">Pause</button>
+            <button type="button" onclick="step()" title="Press me to step through the simulation frame by frame" id="step">Step</button>
+            <button type="button" onclick="reset()" title="Press me to reset the simulation" id="reset">Reset</button>
+            
+            <div class="slider_holder">
+              <input type="range" title="Change me to effect the time step in the simulation" min="0" max="200" value="100" class="slider" id="slider">
+              <p>Time Step: <span id="value"></span> days</p>
+              
+              <script>
+                var slider = document.getElementById("slider");
+                var output = document.getElementById("value");
+                output.innerHTML = slider.value;
+
+                slider.oninput = function() {
+                  output.innerHTML = this.value;
+                }
+              </script>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="column">
+        <h2>List Of Bodies</h2>
+        <div class="list_holder">
+          <div class="bodyButtons"></div>
+          <button onclick="lookToAddBody()" title="Click me to add a new body to the simulation." class="newBody">New Body</button>
+        </div>
+      </div>
+
+      <div class="column">
+        <h2>Graphs</h2>
+        <div class="graph_holder">
+          <div class="graph">
+            <canvas id="momentum"></canvas>
+          </div>
+          <div class="graph">
+            <canvas id="position"></canvas>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js" integrity="sha512-TW5s0IT/IppJtu76UbysrBH9Hy/5X41OTAbQuffZFU6lQ1rdcLHzpU5BzVvr/YFykoiMYZVWlr/PX1mDcfM9Qg==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+    <!-- this is the script to load the chart.js library -->
+    <script src="graphs.js"></script>
+    <!-- this is the script to load the graphs.js file I have written to manage the graphs-->
+  </body>
+</html>

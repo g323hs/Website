@@ -1,0 +1,278 @@
+:root {
+    --grey: #999999;
+    --black: #000000;
+    --background: #2A3542;
+}
+
+img {
+    width: 200px;
+}
+
+html, body {
+    margin: 0; /* Removed specific vh/vw units for cleaner margins */
+    padding: 0;
+    height: 100vh;
+    width: 100vw;
+    text-align: center;
+    overflow-x: hidden;
+    background-color: var(--background);
+    font-family: 'Roboto', sans-serif;
+    min-width: 500px;
+    scroll-snap-type: y proximity; /* Combined scroll-snap properties */
+}
+
+canvas {
+    display: block;
+}
+
+* {
+    box-sizing: border-box;
+}
+
+h2 {
+    margin: 0;
+    border-style: solid;
+    margin: 0.5vh 0; /* Combined margins for better readability */
+    height: 10vh;
+    font-size: 5vh;
+    background-color: var(--grey);
+}
+
+.help {
+    margin: 0;
+    border: solid #000000;
+    margin: 0.5vh 0; /* Combined margins */
+    height: 10vh;
+    font-size: 4vh;
+    background-color: var(--grey);
+    width: 100%;
+    color: black;
+}
+
+.simulation_holder {
+    border-style: solid;
+    height: 87vh;
+    margin-bottom: 0; /* Removed 'vh' for consistency */
+    background-color: var(--black);
+}
+
+#sketch_holder {
+    height: 48vh;
+}
+
+.sketch_outer {
+    border-style: solid;
+    margin: 1vh 1vw;
+}
+
+.button_holder {
+    border-style: solid;
+    height: 34.5vh;
+    margin: 1vh 1vw;
+    background-color: var(--grey);
+}
+
+.button_holder button {
+    display: block;
+    width: 100%;
+    padding: 1vh 0;
+    font-size: 2vh;
+    cursor: pointer;
+    text-align: center;
+    height: 5vh;
+    border: none;
+    color: black;
+}
+
+#start {
+    border: 2px solid #62FF77;
+    background-color: #62FF77;
+}
+
+#start:hover {
+    background-color: white;
+}
+
+#pause {
+    border: 2px solid #E3FF7D;
+    background-color: #E3FF7D;
+}
+
+#pause:hover {
+    background-color: white;
+}
+
+#step {
+    border: 2px solid #809FFF;
+    background-color: #809FFF;
+}
+
+#step:hover {
+    background-color: white;
+}
+
+#reset {
+    border: 2px solid #EB9996;
+    background-color: #EB9996;
+}
+
+#reset:hover {
+    background-color: white;
+}
+
+.slider {
+    -webkit-appearance: none;
+    margin: 2vh 0;
+    width: 100%;
+    height: 2vh;
+    background: #d3d3d3;
+    outline: none;
+    opacity: 0.7;
+    -webkit-transition: .2s;
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1;
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 2vw;
+    height: 2vh;
+    background: var(--background);
+    cursor: pointer;
+}
+
+.slider::-moz-range-thumb {
+    width: 1vw;
+    height: 1vh;
+    background: var(--background);
+    cursor: pointer;
+}
+
+.slider_holder {
+    height: 5.75vh;
+    font-size: 2vh;
+}
+
+.slider {
+    width: 90%;
+    padding: 1vh 0;
+}
+
+.list_holder {
+    border-style: solid;
+    border-width: 1vh 1vw;
+    height: 87vh;
+    margin-bottom: 0;
+    background-color: var(--grey);
+    overflow-y: scroll;
+}
+
+.graph_holder {
+    border-style: solid;
+    height: 87vh;
+    background-color: var(--black);
+}
+
+.graph {
+    margin: 1vh 1vw;
+    border-style: solid;
+    height: 41.5vh;
+    background-color: #ffffff;
+}
+
+canvas {
+    height: 41.5vh;
+}
+
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
+
+@media screen and (max-width: 1350px) {
+    html, body {
+        overflow-y: visible;
+    }
+    
+    .column {
+        width: 98vw;
+        padding: 1vh 2vw 1vh 1vw; /* Combined padding properties */
+    }
+}
+
+@media screen and (min-width: 1350px) {
+    html, body {
+        overflow-y: hidden;
+    }
+    
+    .column {
+        float: left;
+        width: 32vw;
+        margin: 1vh 0.6666vw;
+    }
+}
+
+.collapsible {
+    cursor: pointer;
+    padding: 0.5vw;
+    margin: 1vh 1vw; /* Combined margin properties */
+    width: 90%;
+    border: none;
+    text-align: center;
+    outline: none;
+    font-size: 3vh;
+    color: black;
+}
+
+.collapsible:hover {
+    background-color: #555;
+}
+
+.content {
+    padding: 0 1vh;
+    display: none;
+}
+
+table {
+    margin: auto;
+    width: 90%;
+    border-collapse: collapse;
+    font-size: 2vh;
+    text-align: center;
+}
+
+tbody {
+    width: 90%;
+}
+
+input {
+    width: 100%;
+    font-size: 2vh;
+}
+
+.newBody {
+    cursor: pointer;
+    padding: 0.5vw;
+    margin: 1vh 1vw;
+    width: 90%;
+    border: none;
+    text-align: center;
+    outline: none;
+    font-size: 3vh;
+    background-color: #777;
+    color: black;
+}
+
+.deleteButton {
+    width: 100%;
+    font-size: 2vh;
+    background-color: #dd171b;
+    border: none;
+    cursor: pointer;
+    color: black;
+}
