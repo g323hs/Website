@@ -78,8 +78,8 @@ function perlinCalcs(p, sketchManager) {
     }
 
     function reset_inp_button(first) {
-        let initial_cols = 1;
-        let initial_rows = 1;
+        let initial_cols = 3;
+        let initial_rows = 2;
         let initial_rez = 5;
         let initial_show_grid = true;
         document.getElementById("perlinCalcs_cols").value = initial_cols;

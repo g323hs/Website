@@ -1,8 +1,8 @@
 function randomNoise(p, sketchManager) {
     p.sketchManager = sketchManager;
     
-    let inpCols = 1;
-    let inpRows = 1;
+    let inpCols = 3;
+    let inpRows = 2;
     let cols = inpCols + 2;
     let rows = inpRows + 2;
     let rez = 5;

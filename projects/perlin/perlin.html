@@ -28,213 +28,237 @@
 							<!-- Content -->
 							<section>
 								<header class="main">
-									<h1>Perlin noise</h1>
+									<h1>Perlin Noise</h1>
 								</header>
 
-								<!-- Content -->
-									<h2 id="content">What is Perlin Noise?</h2>
-									<p> To start with I will clear up a common misconception about the noise I am on about here. Sadly I don't mean a sweet melodic tune but instead  a scalar field of values ranging from 1 to -1. </p>
-									<p>
-										A <strong>scalar field</strong> is a function that assigns a value to every point in a space. For two a two-dimensional scalar field imagine a particular height above a point in the plane. Written mathematically,
-										
-										∀ <em>P</em> = (x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>) ∈ ℝ<sup>n</sup> apply the function <em>ϕ: ℝ<sup>n</sup> → ℝ</em>. The value of a scalar field at a point is given by <em>ϕ(P)</em>.
-									</p>
+							
+								<h2 id="content">What is Perlin Noise?</h2>
 
-									<p> Perlin noise is a gradient (smoothed) noise function developed by Ken Perlin, commonly used in computer graphics to generate natural-looking textures and effects. It produces smoothly interpolated random values, making it ideal for simulating organic forms such as clouds, terrain, and waves. Unlike classic random noise, Perlin noise offers coherent, continuous patterns that avoid harsh transitions. To learn more, visit the <a href="https://en.wikipedia.org/wiki/Perlin_noise">Perlin noise Wikipedia page</a>, but I shall do my best to explain it as we go.
-									</p>
-									<p>The definition I have just given tells us the scalar value at <u>any</u> real-valued point. However, as we will see to generate our noise we use a discrete grid of points. This means that we adapt our definition to a finite set of equally spaced out points.</p>
-									<hr>
+								<p class="box">
+									If you would like a first introduction to Perlin noise, please click <a href="article.html">here</a> to view an article I wrote for <a href="https://www.thebubble.org.uk">The Bubble</a>, a student run newspaper at Durham University, for public reading and understanding. Or feel free to keep reading for a more mathematical based description with less background.
+								</p>
 
-									<h2>The Algorithm</h2>
-									<div class="row">
-										<div class="col-12 col-12-small">
-											<h3>Grid definition</h3>
-											<p> We shall start off by looking at the 2d instance of Perlin noise as I think it is the most intuitive. To set up our grid all we need are a number of columns, rows and resolution. The resolution quared is the number of pixels that will be in each cell of our grid.
-											</p>
-										</div>
-										<div class="col-6 col-12-small">
-											<div>
-												<ul class="alt">
-													<li>Columns: <input id="gridDefine_cols" type="number" min="1" max="5" step="1"> </li>
-													<li>Rows: <input id="gridDefine_rows" type="number" min="1" max="5" step="1"> </li>
-													<li>Resolution <input id="gridDefine_rez" type="number" min="1" max="5" step="1"> </li>
-													<li><button class="fit" id="gridDefine_reset">Reset</button></li>
-												</ul>
-											</div>
-											<p>Here we only use small numbers to clearly demonstrate the algorithm but in practice our resolution, especially, would be higher.</p>
-										</div>
-										<!-- Break when small -->
-										<div class="col-0 col-1-small"></div>
-										<div class="col-6 col-10-small">
-											<div id="gridDefine" class="sketch"></div>
-											
-										</div>
-										<div class="col-0 col-1-small"></div>
+								<p> To start with I will clear up a common misconception about the noise I am on about here. Sadly I don't mean a sweet melodic tune but instead  a scalar field of values ranging from 1 to -1. </p>
+								<p>
+									A <strong>scalar field</strong> is a function that assigns a value to every point in a space. For two a two-dimensional scalar field imagine a particular height above a point in the plane. Written mathematically,
+									
+									∀ <em>P</em> = (x<sub>1</sub>, x<sub>2</sub>, ..., x<sub>n</sub>) ∈ ℝ<sup>n</sup> apply the function <em>ϕ: ℝ<sup>n</sup> → ℝ</em>. The value of a scalar field at a point is given by <em>ϕ(P)</em>.
+								</p>
 
-										<!-- Break -->
-										<div class="col-6 col-12-small">
-											<h3>Explaining the calculations</h3>
-											<div class="box">
-												<h4 style="text-align: center;">Random nosie cell</h4>
-												<p>To give a point of reference this is what random noise looks like. This should hopefully be remencient of TV static. Older TV screens would go static due to interference.</p>
-												<p>That is not what we are doing here, the premise we are interested in is when a TV struggles to find a signal it amplifies what it does have. This is to hopefully have some clarity shown for a poor signal. However the TV couldn't differentiate poor signals from no signals. This would lead it to amplifying whatever data it was receiving which was 'noise' with no distuingishable shape, pattern or consistency over time. 
-												</p>
-											</div>
-										</div>
-										<!-- Break when small -->
-										<div class="col-0 col-1-small"></div>
-										<div class="col-6 col-10-small">
-											<div id="randomNoise" class="sketch"></div>
-										</div>
-										<div class="col-0 col-1-small"></div>
-										
+								<p> Perlin noise is a gradient (smoothed) noise function developed by Ken Perlin, commonly used in computer graphics to generate natural-looking textures and effects. It produces smoothly interpolated random values, making it ideal for simulating organic forms such as clouds, terrain, and waves. Unlike classic random noise, Perlin noise offers coherent, continuous patterns that avoid harsh transitions. To learn more, visit the <a href="https://en.wikipedia.org/wiki/Perlin_noise">Perlin noise Wikipedia page</a>, but I shall do my best to explain it as we go.
+								</p>
+								<p>The definition I have just given tells us the scalar value at <u>any</u> real-valued point. However, as we will see to generate our noise we use a discrete grid of points. This means that we adapt our definition to a finite set of equally spaced out points.</p>
+								
+								<p style="color: #f56a6a; text-align: center">
+									Below are a sereis of sketches, some will animate if clicked on and others will update when the parameters are changed, please have a play with them! 
+								</p>
+								
+								<hr>
 
-										<!-- Break -->
-										<div class="col-7 col-12-small">
-											<h4 style="text-align: center;">Perlin noise cell</h4>
-											<div class="box">
-												<p>The motivation of perlin noise is essentially to get a smooth version of the random noise above. To achive this Kevin Perlin devised the following algorithm to calculate the value of each cell iteratively. To make it easier to understand we will just look at a 1 by 1 grid with a resolution of 5.</p>
-												<form id="perlinCalcs_inputs">
-													<div class="row gtr-uniform">
-														<div class="col-4">
-															<input type="radio" id="perlinCalcs_step_1" name="perlinCalcs_step_input" checked>
-															<label for="perlinCalcs_step_1">Create Vectors</label>
-														</div>
-														<div class="col-4">
-															<input type="radio" id="perlinCalcs_step_2" name="perlinCalcs_step_input">
-															<label for="perlinCalcs_step_2">Dot Products</label>
-														</div>
-														<div class="col-4">
-															<input type="radio" id="perlinCalcs_step_3" name="perlinCalcs_step_input">
-															<label for="perlinCalcs_step_3">Perlin noise</label>
-														</div>
-													</div>
-												</form>
-												<div id="step1_text">
-													<ol>
-														<li>Create a vector with length 1 at each corner of our cells at a random direction (<span style="color:darksalmon;">shown in red</span>).</li>
-														<li>Create a vector from the 4 corners of the cell to the centre of of our pixel (<span style="color:rgb(150, 162, 223);">shown in blue</span>).</li>
-													</ol> 
-													Note: the width of the cell is assumed to be 1.
-												</div>
-
-												<div id="step2_text">
-													<ol> 
-														<li>For each pairing of red and blue vectors originating from the same cell corner, then compute their dot product.</li>
-														<li>Label these: <code>top_left, top_right</code> and <code>bottom_left, bottom_right</code>.</li>
-													</ol>
-													<code>1. x = the pixel's horizontal position between 0 and 1</code><br/>
-													<code>2. y = the pixel's vertical position between 0 and 1</code><br/>
-													<code>3. top_interp = linInterp(x, 0, 1, top_left, top_right) </code><br/>
-													<code>4. bottom_interp = linInterp(x, 0, 1, bottom_left, bottom_right) </code><br/>
-													<code>5. perlinNoise = linInterp(y, 0, 1, top_interp, bottom_interp) </code><br/>
-													
-													After we have calculated <code>perlinNoise</code>, this is our final value for this pixel's noise in the range of 0 to 1.
-												</div>
-
-												<div id="step3_text">
-													Now we have seen how to calculate the Perlin nosie value we can paly with the parameters and see how this affects the outcome. 
-													<ul class="alt">
-														<li>Columns: <input id="perlinCalcs_cols" type="number" min="1" max="10" step="1"> </li>
-														<li>Rows: <input id="perlinCalcs_rows" type="number" min="1" max="10" step="1"> </li>
-														<li>Resolution: <input id="perlinCalcs_rez" type="number" min="1" max="10" step="1"> </li>
-														<li>Grid Toggle: <input type="checkbox" id="perlinCalcs_show_grid">
-															<label for="perlinCalcs_show_grid"></label><br></li>
-														<li><button class="fit" id="perlinCalcs_input_reset">Reset</button></li>
-													</ul>
-													
-												</div>
-											</div>
-										</div>										
-
-										<!-- Break when small -->
-										<div class="col-0 col-1-small"></div>
-										<div class="col-5 col-10-small">
-											<div id="perlinCalcs" class="sketch"></div>
-											<button class="fit" id="perlinCalcs_reset">Reset</button>
-										</div>
-										<div class="col-0 col-1-small"></div>
-										<!-- Break -->
-										<div class="col-0 col-12-small">
-											<h3>Perlin noise in 2 dimensions</h3>
-											<p>Something I ommited from my explanation of the calculations above is that we also apply a smoothing funciton to our cells position (x,y) ∈ [0,1]<sup>2</sup>. </p>
-										</div>
-										<!-- Break when small-->
-										<div class="col-0 col-1-small"></div>
-										<div class="col-4 col-10-small">
-											<div id="perlin2d" class="sketch"></div>
-											<button class="fit" id="perlin2d_reset">Reset</button>
-										</div>
-										<div class="col-0 col-1-small"></div>
-										<div class="col-8 col-0-small">
-											<h3>Perlin noise in 2 dimensions</h3>
-											<p>Something I ommited from my explanation of the calculations above is that we also apply a smoothing funciton to our cells position (x,y) ∈ [0,1]<sup>2</sup>. This reduces the harsh transition from one cell to the next. We use the following function.</p>
-											<div>
-												f(x) =  <input id="x4" type="number" min="-20" 		
-														max="20">x<sup>4</sup> + 
-														<input id="x3" type="number" min="-20" 
-														max="20">x<sup>3</sup> + 
-														<input id="x2" type="number" min="-20" 
-														max="20">x<sup>2</sup> + 
-														<input id="x1" type="number" min="-20" 
-														max="20">x			  +
-														<input id="x0" type="number" min="-20" 
-														max="20">
-											</div>
-											<p>
-												<input type="checkbox" id="do_fade"><label for="do_fade"></label>
-												Tick this to see what it looks like with no fade function applied (f(x) = x). 
-											</p>
-										</div>
-										<!-- Break -->
-										<div class="col-8 col-12-small">
-											<h3>Perlin noise in 1 dimension</h3>
-											<p>Here we follow the algorithm for Perlin noise in 1 dimension. We plot it's value on the y-axis for each time step we take along the x-axis. This creates a smooth looking curve that from values mapped from -1 to 1 onto the height of the canvas through interpolatoin. </p>
-										</div>
-										<!-- Break when small -->
-										<div class="col-0 col-1-small"></div>
-										<div class="col-4 col-10-small">
-											<div id="perlin1d" class="sketch"></div>
-											<button class="fit" id="perlin1d_reset">Reset</button>
-										</div>
-										<div class="col-0 col-1-small"></div>
-
-										<!-- Break -->
-										<div class="col-12 col-12-small">
-											<h3 style="text-align: center;">Perlin World</h3>
-											<h4>In this sketch I have used Perlin noise for almost every aspect! I shall expalin each of these below.</h4>
+								<h2>The Algorithm</h2>
+								<div class="row">
+									<div class="col-12 col-12-small">
+										<h3>Grid definition</h3>
+										<p> We shall start off by looking at the 2d instance of Perlin noise as I think it is the most intuitive. To set up our grid all we need are a number of columns, rows and resolution. The resolution quared is the number of pixels that will be in each cell of our grid.
+										</p>
+									</div>
+									<div class="col-6 col-12-small">
+										<div>
 											<ul class="alt">
-												<li>The mountains and dry sand are stationary in the animation but hopefully you can see, they resemble the initial line drawn in <a href="#perlin1d">Perlin noise in 1 dimension</a> just with some tweaking. Then it is almost identical with the wet sand and ocean layers where we have some offset value which increases over time meaning the noise space sampled is shifted slightly values giving the ocean effect.</li>
-												<li>The clouds are genereated and move by, you guessed it, Perlin noise. To get the bubbly effect of the clouds I  overlapped circles of variying radii. I determined the centres' of the circles by creating an oval shape using <code>sin</code> and <code>cos</code> then putting a circle at random points around the centre of the cloud. </li>
-												<li>The trees position and "wind" are also determined by... Perlin noise. I use it to them neatly on the dry sand and having every branch of a particular tree bend in an organic manner to give a wind effect. The height and branch depth of the trees are random. <a href="#recursiveTree">Here</a> I explain how the tree drawing works.</li>
-												<li>The sun has a breathing motion to it where it's radius is determined (for the last time) by Perlin Noise.</li>
+												<li>Columns: <input id="gridDefine_cols" type="number" min="1" max="5" step="1"> </li>
+												<li>Rows: <input id="gridDefine_rows" type="number" min="1" max="5" step="1"> </li>
+												<li>Resolution <input id="gridDefine_rez" type="number" min="1" max="5" step="1"> </li>
+												<li><button class="fit" id="gridDefine_reset">Reset</button></li>
 											</ul>
 										</div>
-										<!-- Break -->
-										<div class="col-2 col-1-small"></div>
-										<div class="col-8 col-10-small">
-											<div id="perlinWorld" class="sketch"></div>
-											<button class="fit" id="perlinWorld_reset">Reset</button>
-										</div>
-										<div class="col-2 col-1-small"></div>
-										<!-- Break -->
-										<div class="col-12 col-12-small">
-											<hr>
-										</div>
-										<!-- Break -->
-										<div class="col-4 col-12-small">
-											<h3>Recursive Tree</h3>
-											<p>As I included this tree in my <a href="#perlinWorld">Perlin world</a> sketch, I thought I would expalin how it works here (even though I don't use Perlin noise!).</p>
-											<p>The program works by recursively (repeatedly until a point) performing almost the exact same action. It starts at the bottom of the screen and moves forward a line of length <code>len</code>. Then it turns to the left, draws a line of length <code>len/3</code> then again but to the right. It then moves to the left and then lines and repeats these steps with the new length of the shorter lines.</p>
-										</div>
-										<div class="col-4 col-12-small">
-											<div id="recursiveTreeGrow" class="sketch"></div>
-										</div>
-										<div class="col-4 col-12-small">
-											<div id="recursiveTree" class="sketch"></div>
-										</div>
+										<p>Here we only use small numbers to clearly demonstrate the algorithm but in practice our resolution, especially, would be higher.</p>
+									</div>
+									<!-- Break when small -->
+									<div class="col-0 col-1-small"></div>
+									<div class="col-6 col-10-small">
+										<div id="gridDefine" class="sketch"></div>
 									</div>
 
+									<!-- Break -->
+									<div class="col-0 col-1-small"></div>
+									<h3>Explaining the calculations</h3>
+									<div class="col-12 col-12-small">
+
+									</div>
+
+									<!-- Break when small -->
+									<div class="col-0 col-1-small"></div>
+									<div class="col-5 col-10-small">
+										<div id="randomNoise" class="sketch"></div>
+									</div>
+									<div class="col-0 col-1-small"></div>
+									<!-- Break -->
+									<div class="col-7 col-12-small">
+										<div class="box">
+											<h4 style="text-align: center;">Random nosie cell</h4>
+											<p>To give a point of reference this is what random noise looks like. This should hopefully be remencient of TV static. Older TV screens would go static due to interference.</p>
+											<p>That is not what we are doing here, the premise we are interested in is when a TV struggles to find a signal it amplifies what it does have. This is to hopefully have some clarity shown for a poor signal. However the TV couldn't differentiate poor signals from no signals. This would lead it to amplifying whatever data it was receiving which was 'noise' with no distuingishable shape, pattern or consistency over time. 
+											</p>
+										</div>
+									</div>
+									
+									
+
+									<!-- Break -->
+									<div class="col-7 col-12-small">
+										<div class="box">
+											<h4 style="text-align: center;">Perlin noise cell</h4>
+											<p>The motivation of Perlin noise is essentially to get a smooth version of the random noise above. To achive this Kevin Perlin devised the following algorithm to calculate the value of each cell iteratively. To make it easier to understand we will just look at a 1 by 1 grid with a resolution of 5.</p>
+											<form id="perlinCalcs_inputs">
+												<div class="row gtr-uniform">
+													<div class="col-4">
+														<input type="radio" id="perlinCalcs_step_1" name="perlinCalcs_step_input" checked>
+														<label for="perlinCalcs_step_1">Create Vectors</label>
+													</div>
+													<div class="col-4">
+														<input type="radio" id="perlinCalcs_step_2" name="perlinCalcs_step_input">
+														<label for="perlinCalcs_step_2">Dot Products</label>
+													</div>
+													<div class="col-4">
+														<input type="radio" id="perlinCalcs_step_3" name="perlinCalcs_step_input">
+														<label for="perlinCalcs_step_3">Perlin noise</label>
+													</div>
+												</div>
+											</form>
+											<div id="step1_text">
+												<ol>
+													<li>Create a vector with length 1 at each corner of our cells at a random direction (<span style="color:darksalmon;">shown in red</span>).</li>
+													<li>Create a vector from the 4 corners of the cell to the centre of of our pixel (<span style="color:rgb(150, 162, 223);">shown in blue</span>).</li>
+												</ol> 
+												Note: the width of the cell is assumed to be 1.
+											</div>
+
+											<div id="step2_text">
+												<ol> 
+													<li>For each pairing of red and blue vectors originating from the same cell corner, then compute their dot product.</li>
+													<li>Label these: <code>top_left, top_right</code> and <code>bottom_left, bottom_right</code>.</li>
+												</ol>
+												<code>1. x = the pixel's horizontal position between 0 and 1</code><br/>
+												<code>2. y = the pixel's vertical position between 0 and 1</code><br/>
+												<code>3. top_interp = linInterp(x, 0, 1, top_left, top_right) </code><br/>
+												<code>4. bottom_interp = linInterp(x, 0, 1, bottom_left, bottom_right) </code><br/>
+												<code>5. perlinNoise = linInterp(y, 0, 1, top_interp, bottom_interp) </code><br/>
+												
+												After we have calculated <code>perlinNoise</code>, this is our final value for this pixel's noise in the range of 0 to 1.
+											</div>
+
+											<div id="step3_text">
+												Now we have seen how to calculate the Perlin nosie value we can paly with the parameters and see how this affects the outcome. 
+												<ul class="alt">
+													<li>Columns: <input id="perlinCalcs_cols" type="number" min="1" max="10" step="1"> </li>
+													<li>Rows: <input id="perlinCalcs_rows" type="number" min="1" max="10" step="1"> </li>
+													<li>Resolution: <input id="perlinCalcs_rez" type="number" min="1" max="10" step="1"> </li>
+													<li>Grid Toggle: <input type="checkbox" id="perlinCalcs_show_grid">
+														<label for="perlinCalcs_show_grid"></label><br></li>
+													<li><button class="fit" id="perlinCalcs_input_reset">Reset</button></li>
+												</ul>
+												
+											</div>
+										</div>
+									</div>										
+
+									<!-- Break when small -->
+									<div class="col-0 col-1-small"></div>
+									<div class="col-5 col-10-small">
+										<div id="perlinCalcs" class="sketch"></div>
+										<button class="fit" id="perlinCalcs_reset">Reset</button>
+									</div>
+									<div class="col-0 col-1-small"></div>
+
+									<!-- Break -->
+									<div class="col-12 col-12-small">
+										<hr>
+										<h2>Visualisations</h2>
+									</div>
+
+									<!-- Break -->
+									<div class="col-0 col-12-small">
+										<h3>Perlin noise in 2 dimensions</h3>
+										<p>Something I ommited from my explanation of the calculations above is that we also apply a smoothing funciton to our cells position (x,y) ∈ [0,1]<sup>2</sup>. </p>
+									</div>
+									<!-- Break when small-->
+									<div class="col-0 col-1-small"></div>
+									<div class="col-4 col-10-small">
+										<div id="perlin2d" class="sketch"></div>
+										<button class="fit" id="perlin2d_reset">Reset</button>
+									</div>
+									<div class="col-0 col-1-small"></div>
+									<div class="col-8 col-0-small">
+										<h3>Perlin noise in 2 dimensions</h3>
+										<p>Something I ommited from my explanation of the calculations above is that we also apply a smoothing funciton to our cells position (x,y) ∈ [0,1]<sup>2</sup>. This reduces the harsh transition from one cell to the next. We use the following function.</p>
+										<div>
+											f(x) =  <input id="x4" type="number" min="-20" 		
+													max="20">x<sup>4</sup> + 
+													<input id="x3" type="number" min="-20" 
+													max="20">x<sup>3</sup> + 
+													<input id="x2" type="number" min="-20" 
+													max="20">x<sup>2</sup> + 
+													<input id="x1" type="number" min="-20" 
+													max="20">x			  +
+													<input id="x0" type="number" min="-20" 
+													max="20">
+										</div>
+										<p>
+											<input type="checkbox" id="do_fade"><label for="do_fade"></label>
+											Tick this to see what it looks like with no fade function applied (f(x) = x). 
+										</p>
+									</div>
+									<!-- Break -->
+									<div class="col-6 col-12-small">
+										<h3>Perlin noise in 1 dimension</h3>
+										<p>Here we follow the algorithm for Perlin noise in 1 dimension. We plot it's value on the y-axis for each time step we take along the x-axis. This creates a smooth looking curve that from values mapped from -1 to 1 onto the height of the canvas through interpolatoin. You can get a simmilar effect if you set the number of rows and resolution to be 1 <a href="#perlinCalcs">here</a> with "Perlin noise" selected.</p>
+									</div>
+									<!-- Break when small -->
+									<div class="col-0 col-1-small"></div>
+									<div class="col-6 col-10-small">
+										<div id="perlin1d" class="sketch"></div>
+										<button class="fit" id="perlin1d_reset">Reset</button>
+									</div>
+									<div class="col-0 col-1-small"></div>
+
+									<!-- Break -->
+									<div class="col-12 col-12-small">
+										<hr>
+										<h2 style="text-align: center;">Perlin World</h2>
+										<h4>In this sketch I have used Perlin noise for almost every aspect! I shall expalin each of these below.</h4>
+										<ul class="alt">
+											<li>The mountains and dry sand are stationary in the animation but hopefully you can see, they resemble the initial line drawn in <a href="#perlin1d">Perlin noise in 1 dimension</a> just with some tweaking. Then it is almost identical with the wet sand and ocean layers where we have some offset value which increases over time meaning the noise space sampled is shifted slightly values giving the ocean effect.</li>
+											<li>The clouds are genereated and move by, you guessed it, Perlin noise. To get the bubbly effect of the clouds I  overlapped circles of variying radii. I determined the centres' of the circles by creating an oval shape using <code>sin</code> and <code>cos</code> then putting a circle at random points around the centre of the cloud. </li>
+											<li>The trees position and "wind" are also determined by... Perlin noise. I use it to them neatly on the dry sand and having every branch of a particular tree bend in an organic manner to give a wind effect. The height and branch depth of the trees are random. <a href="#recursiveTree">Here</a> I explain how the tree drawing works.</li>
+											<li>The sun has a breathing motion to it where it's radius is determined (for the last time) by Perlin noise.</li>
+										</ul>
+									</div>
+									<!-- Break -->
+									<div class="col-2 col-1-small"></div>
+									<div class="col-8 col-10-small">
+										<div id="perlinWorld" class="sketch"></div>
+										<button class="fit" id="perlinWorld_reset">Reset</button>
+									</div>
+									<div class="col-2 col-1-small"></div>
+									
+									<!-- Break -->
+									<div class="col-12 col-12-small">
+										<hr>
+									</div>
+									
+									<!-- Break -->
+									<div class="col-4 col-12-small">
+										<h3>Recursive Tree</h3>
+										<p>As I included this tree in my <a href="#perlinWorld">Perlin world</a> sketch, I thought I would expalin how it works here (even though I don't use Perlin noise!).</p>
+										<p>The program works by recursively (repeatedly until a point) performing almost the exact same action. It starts at the bottom of the screen and moves forward a line of length <code>len</code>. Then it updates the line length as <code>len <- len / 3</code>, then turns to the left and draws a line, then again but to the right of the centre. It then moves to the left and aligns itself, then repeats these steps with the new length of the shorter lines.</p>
+									</div>
+									<div class="col-4 col-12-small">
+										<div id="recursiveTreeGrow" class="sketch"></div>
+									</div>
+									<div class="col-4 col-12-small">
+										<div id="recursiveTree" class="sketch"></div>
+									</div>
+								</div>
 								<hr class="major"/>
 							</section>
 						</div>

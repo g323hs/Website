@@ -25,7 +25,7 @@ function perlin1d(p, sketchManager) {
     let container = document.getElementById("perlin1d");
     let style = getComputedStyle(container);
     let contentWidth = container.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-    let contentHeight = contentWidth;
+    let contentHeight = contentWidth/3;
     return [contentWidth, contentHeight];
   }
 
