@@ -39,7 +39,9 @@ function perlin2d(p, sketchManager) {
 
     resetSketch();
 
-    document.getElementById("perlin2d_reset").onclick = function() {resetSketch(); resetInputs();};
+    document.getElementById("perlin2d_reset").onclick = function() {resetSketch(); resetInputs();
+
+    };
 
     document.getElementById("x4").addEventListener("change", function() {checkInputs();});
     document.getElementById("x3").addEventListener("change", function() {checkInputs();});
@@ -114,6 +116,8 @@ function perlin2d(p, sketchManager) {
     p.loop();
     ///
     p.noLoop();
+
+    graphFadeInstance.resetSketch();
   }
   ////
 
