@@ -1,18 +1,13 @@
-let run = false;
-let spin = false;
-let bodiesAdded = 1;
+let run;
+let spin;
+let bodiesAdded;
+let theta;
+let tempX;
+let oldTheta;
+let zoom;
+let viewHeight;
+let Bodies;
 
-let theta = 0;
-let tempX = 0;
-let oldTheta = 0;
-let zoom = 7;
-let viewHeight = 0;
-
-let Bodies = [];
-
-console.log("hi")
-
-//addBody();
 function changeBorder(colour) {
     const elt = document.getElementById("logo");
     elt.style.color = colour;
@@ -38,7 +33,7 @@ function reset() {
     let Gs = document.getElementsByClassName("G");
     let Bs = document.getElementsByClassName("B");
     let buttons = document.getElementsByClassName("collapsible");
-    let Bodies = [];
+    Bodies = [];
 
     // clear graphs
     PositionChart.destroy();
@@ -193,6 +188,7 @@ function reset() {
     // Change the colour of the logo to indicate what button was last pressed
     changeBorder("#a1231e");
     spin = false;
+    
 }
 
 function start() {
@@ -252,10 +248,10 @@ function generateForces() {
 function updatePositions() {
     let slider = document.getElementById("slider");
     let rate = map(int(slider.value), int(slider.min), int(slider.max), 0, 200);
-    let dt = 60 * 60 * 24 * rate;
+    let dt = rate / 24 ;
     let Forces = generateForces();
-
     // Now we need to update their positions
+
     for (let currentIndex = 0; currentIndex < Bodies.length; currentIndex++) {
         let currentBody = Bodies[currentIndex];
         let force = Forces[currentIndex];
@@ -264,59 +260,84 @@ function updatePositions() {
         // Update momentum
         let dp = force.multiply(dt);
         currentBody.setMomentum(currentBody.getMomentum().add(dp));
-
         // Update position
+
         let ds = currentBody.getMomentum().multiply(dt / mass);
-        if (ds.getMag() < 100) {
-            currentBody.setPos(currentBody.getPos().add(ds));
-        }
+        currentBody.setPos(currentBody.getPos().add(ds));
     }
+    
 }
 
 function drawCameraAndGrid(theta, viewHeight) {
-    // We now need to position the camera, so it views the environment nicely
+    // We now need to position the camera so it views the environment nicely
     let max_X = 1;
     let max_Y = 1;
 
     // Loop through all bodies to get max X and Y positions
-    for (let currentIndex = 0; currentIndex < Bodies.length; currentIndex++) {
-        let body = Bodies[currentIndex];
+    for (const element of Bodies) {
+        let body = element;
 
-        // Maximum x position is its position + its radius (radius is calculated based on mass)
-        max_X = Math.max(max_X, Math.abs(body.getPos().x() + body.getRadius()));
-        max_Y = Math.max(max_Y, Math.abs(body.getPos().y() + body.getRadius()));
+        // Maximum x and y positions include the position plus/minus the radius
+        max_X = Math.max(max_X, Math.abs(body.getPos().x() + body.getRadius()), Math.abs(body.getPos().x() - body.getRadius()));
+        max_Y = Math.max(max_Y, Math.abs(body.getPos().y() + body.getRadius()), Math.abs(body.getPos().y() - body.getRadius()));
     }
 
     // Decide which is larger, width or height
-    let opposite = Math.max(max_X, max_Y);
+    let largestDimension = Math.max(max_X, max_Y);
 
-    // Calculating the max percentage of screen available
-    let widthPercentage = 1 / (width / screen.availWidth);
-    let heightPercentage = 1 / (height / screen.availHeight);
+    // Calculate the scaling factor to fit the largest dimension into the view
+    let scalar = largestDimension * zoom;
 
-    let scalar = Math.max(widthPercentage, heightPercentage);
-    let adjacent = scalar / 2 * opposite / Math.tan(PI / 6) / (zoom * 10);
-    console.log(adjacent, zoom);
-    camera(adjacent * Math.sin(theta), viewHeight, adjacent * Math.cos(theta), 0, viewHeight, 0, 0, 1, 0);
-    perspective(PI / 3, width / height, (height / 2) / tan(PI / 6) / 10, 100000);
+    // Position the camera at a distance to fit the largest dimension into view
+    let cameraDistance = (scalar / Math.tan(PI / 6)) * 2;
+
+    // Set the camera position and perspective
+    camera(
+        cameraDistance * Math.sin(theta), // x position
+        viewHeight,                      // y position (elevated)
+        cameraDistance * Math.cos(theta), // z position
+        0,                                // look at x
+        viewHeight,                       // look at y
+        0,                                // look at z
+        0,                                // up vector x
+        1,                                // up vector y
+        0                                 // up vector z
+    );
+
+    // Ensure the far plane is always greater than the near plane
+    let nearPlane = 0.1; // A small positive value
+    let farPlane = Math.max(cameraDistance * 10); // Scaled based on scene size
+
+    // Correct perspective settings
+    perspective(
+        PI / 3,                       // Field of view
+        width / height,               // Aspect ratio
+        nearPlane,                    // Near clipping plane
+        farPlane                      // Far clipping plane
+    );
 
     // Drawing the planes
     fill("yellow");
 
     // Grid scaling
-    let grid_scale_array = adjacent.toExponential().split("e+");
-    let grid_scale = Math.floor(parseInt(grid_scale_array[0]) / 5) * 5 * Math.pow(10, parseInt(grid_scale_array[1]));
-    grid_scale = 500;
+    let grid_scale = 500; // Set a fixed grid scale
+
+    // Helper function to draw a gridline as a cylinder
+    function drawCylinder(x, y, z, rotateAxis, rotateAngle) {
+        push(); // Save the current transformation state
+        translate(x, y, z); // Move to the position
+        if (rotateAxis) {
+            rotate(rotateAngle, rotateAxis); // Apply rotation if specified
+        }
+        cylinder(1, 10 * grid_scale); // Draw the cylinder
+        pop(); // Restore the previous transformation state
+    }
 
     // Draw horizontal z gridlines
     for (let x = -grid_scale * 2; x <= grid_scale * 2; x += grid_scale) {
         for (let y = -grid_scale * 2; y <= grid_scale * 2; y += grid_scale) {
-            if (x !== 0 && y !== 0) {
-                translate(x, y, 0);
-                rotate(PI / 2, createVector(1, 0, 0));
-                cylinder(1, 10 * grid_scale);
-                rotate(-PI / 2, createVector(1, 0, 0));
-                translate(-x, -y, 0);
+            if (x !== 0 || y !== 0) { // Exclude the central axis
+                drawCylinder(x, y, 0, createVector(1, 0, 0), PI / 2); // Horizontal z-plane
             }
         }
     }
@@ -324,20 +345,14 @@ function drawCameraAndGrid(theta, viewHeight) {
     // Draw vertical y gridlines
     for (let x = -grid_scale * 2; x <= grid_scale * 2; x += grid_scale) {
         for (let z = -grid_scale * 2; z <= grid_scale * 2; z += grid_scale) {
-            translate(x, 0, z);
-            cylinder(1, 10 * grid_scale);
-            translate(-x, 0, -z);
+            drawCylinder(x, 0, z, null, 0); // Vertical y-plane
         }
     }
 
     // Draw vertical x gridlines
     for (let z = -grid_scale * 2; z <= grid_scale * 2; z += grid_scale) {
         for (let y = -grid_scale * 2; y <= grid_scale * 2; y += grid_scale) {
-            translate(0, y, z);
-            rotate(PI / 2, createVector(0, 0, 1));
-            cylinder(1, 10 * grid_scale);
-            rotate(-PI / 2, createVector(0, 0, 1));
-            translate(0, -y, -z);
+            drawCylinder(0, y, z, createVector(0, 0, 1), PI / 2); // Vertical x-plane
         }
     }
 }
@@ -381,29 +396,27 @@ function collision() {
 
 function combine(body1, body2) {
     // Use the details from the larger body as the colours and name
+    let body_name = body2.getName();
+    let colour = body2.getColour();
     if (body1.getMass() > body2.getMass()) {
-        name = body1.getName();
+        body_name = body1.getName();
         colour = body1.getColour();
-    } else {
-        name = body2.getName();
-        colour = body2.getColour();
     }
-
     // create new body
-    newBody = new Body(
+    let newBody = new Body(
         colour,
         body1.getMass() + body2.getMass(),
         body1.getPos(),
         body1.getMomentum().add(body2.getMomentum()),
-        name
+        body_name
     );
 
     // remove body 1 and 2 which have just collided then add newBody
-    newBodies = [];
+    let newBodies = [];
     
-    for (body = 0; body < Bodies.length; body++) {
-        if ((body1 != Bodies[body]) && (body2 != Bodies[body])) {
-            newBodies.push(Bodies[body]);
+    for (const element of Bodies) {
+        if ((body1 != element) && (body2 != element)) {
+            newBodies.push(element);
         }
     }
 
@@ -430,7 +443,11 @@ function mouseDragged() {
 function mouseWheel(event) {
     if (mouseX > 0 && mouseX < width && mouseY > 0 && mouseY < height) {
         zoom += event.deltaY / 100;
-        console.log("scroll", event.deltaY);
+        if (zoom < 0.1) {
+            zoom = 0.1;
+        }
+        // Prevent default scrolling behaviour
+        event.preventDefault();
     }
 }
 
@@ -441,25 +458,27 @@ function runSim() {
     collision();
 
     // update pos graph
-    for (currentIndex = 0; currentIndex < Bodies.length; currentIndex++) {
+    for (const element of Bodies) {
         if (frameCount % 20 == 0) {
-            addDataToPos(Bodies[currentIndex].getName(), Bodies[currentIndex].getPos().getMag());
-            addDataToMom(Bodies[currentIndex].getName(), Bodies[currentIndex].getMomentum().getMag() * 1e7 / Bodies[currentIndex].getMass());
+            addDataToPos(element.getName(), element.getPos().getMag());
+            addDataToMom(element.getName(), element.getMomentum().getMag() * 1e7 / element.getMass());
         }
     }
 }
 
-function keyPressed() {
-    if (keyCode === ESCAPE) {
-        // opens image in new tab
-        window.open("help.png", "_blank");
-    }
-}
 
 function setup() {
+    run = false;
+    spin = false;
+    bodiesAdded =
+    theta = 0;
+    tempX = 0;
+    oldTheta = 0;
+    zoom = 1;
+    viewHeight = 0;
+    Bodies = [];
     createSketch();
     addBody();
-    //alert("For help press Escape");
 }
 
 function draw() {
@@ -964,7 +983,7 @@ function addBody() {
     document.getElementsByClassName("bodyButtons")[0].appendChild(div);
 
     // Add new data set to graphs
-    textColour = 'rgb(' + Red + ', ' + Green + ', ' + Blue + ')';
+    textColour = [Red, Green, Blue];
 
     newPosDataset = {
         label: str("Body " + str(bodyNumber)),
@@ -991,12 +1010,12 @@ function addBody() {
     MomDatasets[MomDatasets.length] = newMomDataset;
 
     // Add data to bodies
-    newBody = new Body(
+    let newBody = new Body(
         textColour,
-        Mass.value,
-        new Vector(PosX.value, PosY.value, PosZ.value),
-        new Vector(MomentumX.value, MomentumY.value, MomentumZ.value),
-        name
+        parseFloat(Mass.value),
+        new Vector(parseFloat(PosX.value), parseFloat(PosY.value), parseFloat(PosZ.value)),
+        new Vector(parseFloat(MomentumX.value), parseFloat(MomentumY.value), parseFloat(MomentumZ.value)),
+        Name
     );
     Bodies.push(newBody);
 

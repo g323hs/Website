@@ -1,14 +1,22 @@
 function perlin2d(p, sketchManager) {
   p.sketchManager = sketchManager;
 
+  resetInputs(true);
+  let x4 = parseFloat(document.getElementById("x4").value);
+  let x3 = parseFloat(document.getElementById("x3").value);
+  let x2 = parseFloat(document.getElementById("x2").value);
+  let x1 = parseFloat(document.getElementById("x1").value);
+  let x0 = parseFloat(document.getElementById("x0").value);
+  let coefficients = [x0,x1,x2,x3,x4];
+  
+  let do_fade = document.getElementById("do_fade").checked;
+
   const cols = 8;
   const rows = 8;
   const rez = 16;
   const show_grid = false;
   const show_vectors = false;
-  const do_fade = true;
-  const coefficients = [0, 0, 10, -15, 6];
-  const use_list_vecs = false;
+  
 
   const weightX = 1;
   const weightY = 1;
@@ -31,22 +39,29 @@ function perlin2d(p, sketchManager) {
 
     resetSketch();
 
-    document.getElementById("perlin2d_reset").onclick = function() {resetSketch()};
+    document.getElementById("perlin2d_reset").onclick = function() {resetSketch(); resetInputs();};
+
+    document.getElementById("x4").addEventListener("change", function() {checkInputs();});
+    document.getElementById("x3").addEventListener("change", function() {checkInputs();});
+    document.getElementById("x2").addEventListener("change", function() {checkInputs();});
+    document.getElementById("x1").addEventListener("change", function() {checkInputs();});
+    document.getElementById("x0").addEventListener("change", function() {checkInputs();});
+    document.getElementById("do_fade").addEventListener("change", function() {checkInputs();});
   };
 
-  // Draw pixels
   function getWidthAndHeight() {
     let container = document.getElementById("perlin2d");
     let style = getComputedStyle(container);
     let contentWidth = container.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
-    
+
     pixelWidth = contentWidth / (cols * rez);
     let contentHeight = rows * rez * pixelWidth;
-    //if (contentHeight > 400) {
-    //  contentHeight /= 2;
-    //  contentWidth /= 2;
-    //  pixelWidth /= 2;  
-    //}
+    let origialWidth = contentWidth;
+    while (contentHeight > origialWidth) {
+      contentHeight *= 0.99;
+      contentWidth *= 0.99;
+      pixelWidth *= 0.99;  
+    }
     return [contentWidth, contentHeight];
   }
 
@@ -56,21 +71,43 @@ function perlin2d(p, sketchManager) {
     resizing = true;
   } 
 
+  function resetInputs(first) {
+    let initial_x4 = 6;
+    let initial_x3 = -15;
+    let initial_x2 = 10;
+    let initial_x1 = 0;
+    let initial_x0 = 0;
+    let initial_do_fade = true;
+
+    document.getElementById("x4").value = initial_x4;
+    document.getElementById("x3").value = initial_x3;
+    document.getElementById("x2").value = initial_x2;
+    document.getElementById("x1").value = initial_x1;
+    document.getElementById("x0").value = initial_x0;
+    document.getElementById("do_fade").checked = initial_do_fade;
+    
+    if (!first) {
+        checkInputs();
+    }   
+}
+
   function resetSketch() {
     /// Unique to this sketch   
+    x4 = validInput("x4");
+    x3 = validInput("x3");
+    x2 = validInput("x2");
+    x1 = validInput("x1");
+    x0 = validInput("x0");
+    do_fade = document.getElementById("do_fade").checked;  
+
+    coefficients = [x0,x1,x2,x3,x4];
+    
     grid = [];
-    const vecs = [
-      [1,1],[-1,1],[1,-1],[-1,-1],
-      [1.414,0],[0,1.414],[0,-1.414],[-1.414,0]]
     for (let col = 0; col < cols + 1; col += 1) {
       let temp = [];
       for (let row = 0; row < rows + 1; row += 1) {
-        if (use_list_vecs) {
-          temp.push(p.random(vecs));          
-        } else {
-          const a = p.random(p.TWO_PI);
-          temp.push([weightX*p.cos(a), weightY*p.sin(a)]);
-        }
+        const a = p.random(p.TWO_PI);
+        temp.push([weightX*p.cos(a), weightY*p.sin(a)]);
       }
       grid.push(temp);
     }
@@ -79,6 +116,33 @@ function perlin2d(p, sketchManager) {
     p.noLoop();
   }
   ////
+
+  function validInput(id) {
+    let elt = document.getElementById(id);
+    // max bound
+    if (parseFloat(elt.value) > parseFloat(elt.max)) {
+      elt.value = elt.max;
+    }
+    // min bound
+    if (parseFloat(elt.value) < parseFloat(elt.min)) {
+      elt.value = elt.max;
+    }
+    return parseFloat(elt.value)
+  }
+
+  function checkInputs() {
+    // need to redraw sketch
+    if (x4 != parseFloat(document.getElementById("x4").value)||
+        x3 != parseFloat(document.getElementById("x3").value)||
+        x2 != parseFloat(document.getElementById("x2").value)||
+        x1 != parseFloat(document.getElementById("x1").value)||
+        x0 != parseFloat(document.getElementById("x0").value)||
+        do_fade != document.getElementById("do_fade").checked
+        ) {
+      resetSketch();
+      p.windowResized();
+    }
+  }
 
   function fade(t) {
     let tot = 0;
@@ -127,9 +191,6 @@ function perlin2d(p, sketchManager) {
               (row * rez + i) * pixelWidth, 
               pixelWidth, 
               pixelWidth);
-            
-            //p.stroke(0,255,0);
-            //p.line(0,0,x0*rez * pixelWidth,y0 * rez * pixelWidth);
           }
         }
       }

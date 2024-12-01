@@ -124,6 +124,7 @@ function perlinCalcs(p, sketchManager) {
             }
             grid.push(temp);
         }
+        p.loop();
         p.noLoop();
     }
     ////
@@ -155,7 +156,6 @@ function perlinCalcs(p, sketchManager) {
         }
 
         // don't need to redraw sketch
-        console.log()
         if (show_grid != document.getElementById("perlinCalcs_show_grid").checked) {
             show_grid = document.getElementById("perlinCalcs_show_grid").checked;
             p.redraw();

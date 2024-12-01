@@ -97,7 +97,7 @@
 												<form id="perlinCalcs_inputs">
 													<div class="row gtr-uniform">
 														<div class="col-4">
-															<input type="radio" id="perlinCalcs_step_1" name="perlinCalcs_step_input">
+															<input type="radio" id="perlinCalcs_step_1" name="perlinCalcs_step_input" checked>
 															<label for="perlinCalcs_step_1">Create Vectors</label>
 														</div>
 														<div class="col-4">
@@ -105,7 +105,7 @@
 															<label for="perlinCalcs_step_2">Dot Products</label>
 														</div>
 														<div class="col-4">
-															<input type="radio" id="perlinCalcs_step_3" name="perlinCalcs_step_input" checked>
+															<input type="radio" id="perlinCalcs_step_3" name="perlinCalcs_step_input">
 															<label for="perlinCalcs_step_3">Perlin noise</label>
 														</div>
 													</div>
@@ -170,14 +170,19 @@
 											<h3>Perlin noise in 2 dimensions</h3>
 											<p>Something I ommited from my explanation of the calculations above is that we also apply a smoothing funciton to our cells position (x,y) ∈ [0,1]<sup>2</sup>. This reduces the harsh transition from one cell to the next. We use the following function.</p>
 											<div>
-												f(x) =  <input id="" type="number" min="1" max="10">x<sup>4</sup> + 
-														<input id="" type="number" min="1" max="10">x<sup>3</sup> + 
-														<input id="" type="number" min="1" max="10">x<sup>2</sup> + 
-														<input id="" type="number" min="1" max="10">x			  +
-														<input id="" type="number" min="1" max="10">
+												f(x) =  <input id="x4" type="number" min="-20" 		
+														max="20">x<sup>4</sup> + 
+														<input id="x3" type="number" min="-20" 
+														max="20">x<sup>3</sup> + 
+														<input id="x2" type="number" min="-20" 
+														max="20">x<sup>2</sup> + 
+														<input id="x1" type="number" min="-20" 
+														max="20">x			  +
+														<input id="x0" type="number" min="-20" 
+														max="20">
 											</div>
 											<p>
-												<input type="checkbox" id="asdfasdf"><label for="asdfasdf"></label>
+												<input type="checkbox" id="do_fade"><label for="do_fade"></label>
 												Tick this to see what it looks like with no fade function applied (f(x) = x). 
 											</p>
 										</div>
@@ -236,46 +241,10 @@
 					</div>
 
 				<!-- Sidebar -->
-					<div id="sidebar">
-						<div class="inner">
-							<!-- Menu -->
-								<nav id="menu">
-									<header class="major">
-										<h2>Menu</h2>
-									</header>
-									<ul>
-										<li><a href="../../index.html">Homepage</a></li>
-										<li><a href="../../elements.html">Elements</a></li>
-										<li>
-											<span class="opener">Projects</span>
-											<ul>
-												<li><a href="perlin.html">Perlin noise</a></li>
-												<li><a href="#">Path Finding</a></li>
-												<li><a href="#">A-Level Project</a></li>
-											</ul>
-										</li>
-									<li><a href="/cv/cv.html">Curriculum vitae</a></li>
-									</ul>
-								</nav>
-
-							<!-- Section -->
-								<section>
-									<header class="major">
-										<h2>Get in touch</h2>
-									</header>
-									<p>If you have any questions or feedback about any of my projects or would like to get in touch, please don't hesitate to email me or send me a message. Thanks!</p>
-									<ul class="contact">
-										<li class="icon solid fa-phone">(+44) 7507066055</li>
-										<li class="icon solid fa-envelope"><a href="mailto:3ghildicksmith3@gmail.com">3ghildicksmith3@gmail.com</a></li>
-									</ul>
-								</section>
-
-							<!-- Footer -->
-								<footer id="footer">
-									<p class="copyright">&copy; 2024 George Hildick-Smith. All rights reserved.</p>
-								</footer>
-						</div>
-					</div>
+				<script src="../../assets/js/sidebar.js"></script>
+				<script>
+					createSidebar("../..");
+				</script>
 			</div>
 
 		<!-- Scripts -->
