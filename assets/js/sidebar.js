@@ -9,17 +9,17 @@ function createSidebar(relative) {
                     <h2>Menu</h2>
                 </header>
                 <ul>
-                    <li><a href="${relative}/index.html">Homepage</a></li>
-                    <li><a href="${relative}/elements.html">Elements</a></li>
+                    <li><a href="${relative}/website/index.html">Homepage</a></li>
+                    <!-- <li><a href="${relative}/website/elements.html">Elements</a></li> -->
                     <li>
                         <span class="opener">Projects</span>
                         <ul>
-                            <li><a href="${relative}/projects/perlin/perlin.html">Perlin Noise</a></li>
-                            <li><a href="${relative}/#">Path Finding</a></li>
-                            <li><a href="${relative}/projects/alevel/alevel.html" target="_blank">A-Level Project</a></li>
+                            <li><a href="${relative}/website/projects/perlin/perlin.html">Perlin Noise</a></li>
+                            <li><a href="${relative}/website/#">Path Finding</a></li>
+                            <li><a href="${relative}/website/projects/alevel/alevel.html" target="_blank">A-Level Project</a></li>
                         </ul> 
                     </li>
-                    <li><a href="${relative}/cv/cv.html">CV</a></li>
+                    <li><a href="${relative}/website/cv/cv.html">CV</a></li>
                 </ul>
             </nav>
 
