@@ -21,7 +21,7 @@
 				height: _size(element-height) / 1.375;
 				line-height: _size(element-height) / 1.375;
 				opacity: 0.325;
-				position: absolute;
+				position: sticky;
 				right: 0;
 				text-align: center;
 				top: 0;
@@ -47,6 +47,8 @@
 		font-size: 0.9em;
 		position: relative;
 		width: _size(sidebar-width);
+		position: sticky;
+		
 
 		h2 {
 			font-size: (1.25em / 0.9);
@@ -93,7 +95,7 @@
 			line-height: 7.5em;
 			outline: 0;
 			overflow: hidden;
-			position: absolute;
+			position: sticky;
 			text-align: center;
 			text-indent: -15em;
 			white-space: nowrap;
@@ -107,7 +109,7 @@
 				height: inherit;
 				left: 0;
 				line-height: inherit;
-				position: absolute;
+				position: sticky;
 				text-indent: 0;
 				top: 0;
 				width: inherit;
@@ -214,7 +216,7 @@
 					content: '';
 					height: 3.5em;
 					left: 1em;
-					position: absolute;
+					position: sticky;
 					top: 1em;
 					width: 5em;
 				}

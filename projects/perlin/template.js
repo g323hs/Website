@@ -5,6 +5,8 @@ function name(p, sketchManager) {
     let value = parseInt(document.getElementById("html_id_var").value);
     let radio = document.getElementById("html_id_radio").checked;
   
+    let resizing = false;
+
     //// at the top of every sketch
     p.setup = function() {
       let sizes = getWidthAndHeight();
@@ -33,15 +35,10 @@ function name(p, sketchManager) {
       let style = getComputedStyle(container);
       let contentWidth = container.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
       
-      let pixelWidth = contentWidth / (structureCols * rez);
-      let contentHeight = structureRows * rez * pixelWidth;
-      let origialWidth = contentWidth;
       while (contentHeight > origialWidth) {
-       contentHeight *= 0.99;
        contentWidth *= 0.99;
-       pixelWidth *= 0.99;  
       }
-      return [contentWidth, contentHeight];
+      return [contentWidth, contentWidth];
     }
   
     p.windowResized = function() {
@@ -63,7 +60,7 @@ function name(p, sketchManager) {
     function resetSketch() {
         /// Unique to this sketch 
         value = validInput("html_id_val");
-
+        resizing = false;
         p.loop();
         p.noLoop();
     }
@@ -123,6 +120,12 @@ function name(p, sketchManager) {
     
     p.draw = function() {
         p.background(255);
+        if (!resizing){
+        //update anything each draw loop for the program.
+        ;
+        } else {
+        resizing = false;
+        }
     };
 }
 

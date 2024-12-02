@@ -10,6 +10,7 @@ function gridDefine(p, sketchManager) {
 
     let pixelWidth;
     let resizing = false;
+    p.noLoop();
   
     //// at the top of every sketch
     p.setup = function() {
@@ -127,15 +128,14 @@ function gridDefine(p, sketchManager) {
         }
 
         if (!resizing){
+        //update anything each draw loop for the program.
         ;
         } else {
         resizing = false;
         }
     };
   }
-  
-  
-  // notes: add customisation controls width height cols toggles for arrows and grids and weighting for components, using fade or not
+
   
   // big idea see how other programs run using that 'custom perlin noise' v v interesting 
   

@@ -82,8 +82,16 @@
 									<!-- Break -->
 									<div class="col-0 col-1-small"></div>
 									<h3>Explaining the calculations</h3>
-									<div class="col-12 col-12-small">
+									<div class="col-12 col-12-small"></div>
 
+									<!-- Break -->
+									<div class="col-0 col-12-small">
+										<div class="box">
+											<h4 style="text-align: center;">Random noise cells</h4>
+											<p>To give a point of reference this is what random noise looks like. This should hopefully be remencient of TV static. Older TV screens would go static due to interference.</p>
+											<p>That is not what we are doing here, the premise we are interested in is when a TV struggles to find a signal it amplifies what it does have. This is to hopefully have some clarity shown for a poor signal. However, the TV couldn't differentiate poor signals from no signals. This would lead it to amplify whatever data it was receiving which was 'noise' with no distinguishable shape, pattern or consistency over time. 
+											</p>
+										</div>
 									</div>
 
 									<!-- Break when small -->
@@ -93,9 +101,9 @@
 									</div>
 									<div class="col-0 col-1-small"></div>
 									<!-- Break -->
-									<div class="col-7 col-12-small">
+									<div class="col-7 col-0-small">
 										<div class="box">
-											<h4 style="text-align: center;">Random nosie cell</h4>
+											<h4 style="text-align: center;">Random noise cells</h4>
 											<p>To give a point of reference this is what random noise looks like. This should hopefully be remencient of TV static. Older TV screens would go static due to interference.</p>
 											<p>That is not what we are doing here, the premise we are interested in is when a TV struggles to find a signal it amplifies what it does have. This is to hopefully have some clarity shown for a poor signal. However, the TV couldn't differentiate poor signals from no signals. This would lead it to amplify whatever data it was receiving which was 'noise' with no distinguishable shape, pattern or consistency over time. 
 											</p>
@@ -107,7 +115,7 @@
 									<!-- Break -->
 									<div class="col-7 col-12-small">
 										<div class="box">
-											<h4 style="text-align: center;">Perlin noise cell</h4>
+											<h4 style="text-align: center;">Perlin noise cells</h4>
 											<p>The motivation of Perlin noise is essentially to get a smooth version of the random noise above. To achieve this Kevin Perlin devised the following algorithm to calculate the value of each cell iteratively. To make it easier to understand we will just look at a 1 by 1 grid with a resolution of 5.</p>
 											<form id="perlinCalcs_inputs">
 												<div class="row gtr-uniform">
@@ -223,6 +231,26 @@
 									<div class="col-0 col-1-small"></div>
 
 									<!-- Break -->
+									<div class="col-0 col-12-small">
+										<h3>Perlin noise in 3 dimension</h3>
+										<p>Here we show that Perlin noise can be expanded to three dimensions visualising it akin to panning through a block of marble. Each slice will have a similar pattern to it's neighbour but will also be different.</p>
+									</div>
+									<!-- Break when small -->
+									<div class="col-0 col-1-small"></div>
+									<div class="col-4 col-5-small">
+										<div id="perlin3d_2d" class="sketch"></div>
+									</div>
+									<div class="col-4 col-0-small">
+										<h3>Perlin noise in 3 dimension</h3>
+										<p>Here we show that Perlin noise can be expanded to three dimensions visualising it akin to panning through a block of marble. Each slice will have a similar pattern to it's neighbour but will also be different.</p>
+									</div>
+									<div class="col-4 col-5-small">
+										<div id="perlin3d_3d" class="sketch"></div>
+									</div>
+									<div class="col-0 col-1-small"></div>
+									
+
+									<!-- Break -->
 									<div class="col-12 col-12-small">
 										<hr>
 										<h2 style="text-align: center;">Perlin World</h2>
@@ -259,6 +287,21 @@
 									<div class="col-4 col-12-small">
 										<div id="recursiveTree" class="sketch"></div>
 									</div>
+
+									<hr>
+									<!-- Break -->
+									<div class="col-12 col-12-small">
+										<hr>
+										<h2 style="text-align: center;">Perlin Flow Field</h2>
+
+										<p>In this sketch, I use Perlin noise to determine the angle of vectors at the vertices of a grid. This is much like the idea used to generate the values of Perlin noise, but then applied to a different grid. </p>
+									</div>
+									<!-- Break -->
+									<div class="col-2 col-1-small"></div>
+									<div class="col-8 col-10-small">
+										
+									</div>
+									<div class="col-2 col-1-small"></div>
 								</div>
 								<hr class="major"/>
 							</section>
@@ -286,8 +329,10 @@
 			<script src="gridDefine.js"></script>
 			<script src="randomNoise.js"></script>
 			<script src="perlinCalcs.js"></script>
-			<script src="perlin1d.js"></script>
 			<script src="perlin2d.js"></script>
+			<script src="perlin1d.js"></script>
+			<script src="perlin3d_2d.js"></script>
+			<script src="perlin3d_3d.js"></script>
 			<script src="graphFade.js"></script>
 			<script src="perlinWorld.js"></script>
 			<script src="recursiveTree.js"></script>

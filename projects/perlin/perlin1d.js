@@ -55,7 +55,8 @@ function perlin1d(p, sketchManager) {
       off += 0.01;
     }
     if (!resizing){
-    time += 0.01;} else {
+      time += 0.01;
+    } else {
       resizing = false;
     }
   };  
